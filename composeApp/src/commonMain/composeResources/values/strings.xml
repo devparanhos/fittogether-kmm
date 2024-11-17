@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="title_welcome">Bem-vindo a Fit Together</string>
+    <string name="subtitle_welcome">Encontre um parceiro para se exercitar porque treinar Together é muito melhor que sozinho</string>
+
+    <string name="button_begin">Começar</string>
+    <string name="button_enter_with_email">Entrar com e-mail</string>
+    <string name="button_enter_with_google">Entrar com google</string>
+    <string name="button_enter_with_apple">Entrar com apple</string>
+    <string name="button_create">Cadastrar</string>
+
+    <string name="label_already_has_account">Já possui um conta?</string>
+    <string name="label_enter_here">Entre aqui</string>
+    <string name="label_if_already_have_account">se você já tiver uma conta</string>
+    <string name="label_or_create_account">ou crie sua conta</string>
+    <string name="label_politics">Ao entrar você concorda com os termos de uso e política de privacidade</string>
+</resources>
