@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 import br.com.fittogether.presentation.component.button.DefaultButton
+import br.com.fittogether.presentation.feature.start.viewmodel.StartViewModel
 import br.com.fittogether.presentation.ui.color.Grey400
 import br.com.fittogether.presentation.ui.color.Grey600
 import br.com.fittogether.presentation.ui.color.Primary
@@ -46,9 +47,13 @@ import fittogether_app.composeapp.generated.resources.pattern_background
 
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
+@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun StartScreen(
+    viewModel: StartViewModel = koinViewModel(),
     navigateToSignup: () -> Unit
 ) {
     StartContent(
@@ -99,6 +104,7 @@ fun StartContent(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         DefaultButton(
+                            modifier = Modifier.height(46.dp),
                             label = stringResource(Res.string.button_enter_with_email),
                             backgroundColor = Primary,
                             borderColor = Primary,
@@ -109,6 +115,7 @@ fun StartContent(
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         DefaultButton(
+                            modifier = Modifier.height(46.dp),
                             label = stringResource(Res.string.button_enter_with_google),
                             backgroundColor = Color.White,
                             borderColor = Grey600,
@@ -120,6 +127,7 @@ fun StartContent(
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         DefaultButton(
+                            modifier = Modifier.height(46.dp),
                             label = stringResource(Res.string.button_enter_with_apple),
                             backgroundColor = Color.White,
                             borderColor = Grey600,
@@ -148,6 +156,7 @@ fun StartContent(
                         }
                         Spacer(modifier = Modifier.height(32.dp))
                         DefaultButton(
+                            modifier = Modifier.height(46.dp),
                             label = stringResource(Res.string.button_create),
                             backgroundColor = Secondary,
                             borderColor = Secondary,

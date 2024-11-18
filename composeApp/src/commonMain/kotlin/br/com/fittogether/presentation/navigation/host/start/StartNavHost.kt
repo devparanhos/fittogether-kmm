@@ -11,8 +11,8 @@ import br.com.fittogether.presentation.feature.welcome.screen.WelcomeScreen
 import br.com.fittogether.presentation.navigation.route.signup.SignupRoutes
 import br.com.fittogether.presentation.navigation.route.start.StartRoutes
 
-fun NavGraphBuilder.startNavHost(navController: NavHostController) {
-    navigation<StartRoutes.Graph>(startDestination = StartRoutes.Welcome) {
+fun NavGraphBuilder.startNavHost(navController: NavHostController, startDestination: StartRoutes) {
+    navigation<StartRoutes.Graph>(startDestination = startDestination) {
         composable<StartRoutes.Welcome> {
             WelcomeScreen(
                 navigateOnboarding = {

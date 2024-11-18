@@ -8,4 +8,7 @@ sealed class SignupRoutes {
 
     @Serializable
     data object VerifyEmail : SignupRoutes()
+
+    @Serializable
+    data class ConfirmCode(val email: String? = "") : SignupRoutes()
 }

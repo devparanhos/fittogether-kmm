@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,10 +24,10 @@ import androidx.compose.ui.unit.sp
 
 import br.com.fittogether.presentation.ui.color.Complementary
 
-import org.jetbrains.compose.ui.tooling.preview.Preview
-
 @Composable
 fun DefaultButton(
+    isRequesting: Boolean = false,
+    modifier: Modifier = Modifier,
     label: String,
     backgroundColor: Color = Complementary,
     borderColor: Color = Complementary,
@@ -35,14 +36,15 @@ fun DefaultButton(
     onClick: () -> Unit
 ) {
     Button(
-        modifier = Modifier.fillMaxWidth().height(46.dp),
+        enabled = !isRequesting,
+        modifier = modifier.fillMaxWidth().height(58.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = borderColor
+            color = if (isRequesting) Color.Gray else borderColor
         ),
         onClick = {
             onClick()
@@ -52,32 +54,30 @@ fun DefaultButton(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                icon?.let {
-                    Image(
-                        painter = it,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
+                if (isRequesting) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        color = Color.Gray
+                    )
+                } else {
+                    icon?.let {
+                        Image(
+                            painter = it,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                    Text(
+                        text = label,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            letterSpacing = 1.sp
+                        ),
+                        fontWeight = FontWeight.Normal,
+                        color = textColor,
                     )
                 }
-                Text(
-                    text = label,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        letterSpacing = 1.sp
-                    ),
-                    fontWeight = FontWeight.Normal,
-                    color = textColor,
-                )
             }
         }
-    )
-}
-
-@Preview
-@Composable
-fun PreviewButtons() {
-    DefaultButton(
-        label = "Botão",
-        onClick = {}
     )
 }
