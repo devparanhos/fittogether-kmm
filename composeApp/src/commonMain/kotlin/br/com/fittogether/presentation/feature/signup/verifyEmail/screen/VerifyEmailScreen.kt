@@ -1,27 +1,21 @@
 package br.com.fittogether.presentation.feature.signup.verifyEmail.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.structuralEqualityPolicy
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
@@ -35,6 +29,7 @@ import androidx.compose.ui.unit.sp
 
 import br.com.fittogether.presentation.component.button.DefaultButton
 import br.com.fittogether.presentation.component.input.DefaultInput
+import br.com.fittogether.presentation.component.topbar.DefaultTopbar
 import br.com.fittogether.presentation.feature.signup.verifyEmail.intent.VerifyEmailIntents
 import br.com.fittogether.presentation.feature.signup.verifyEmail.state.VerifyEmailState
 import br.com.fittogether.presentation.feature.signup.verifyEmail.viewmodel.VerifyEmailViewModel
@@ -45,10 +40,18 @@ import br.com.fittogether.presentation.ui.color.Secondary
 
 import fittogether_app.composeapp.generated.resources.Res
 import fittogether_app.composeapp.generated.resources.ic_apple
-import fittogether_app.composeapp.generated.resources.ic_arrow_back
 import fittogether_app.composeapp.generated.resources.ic_google
+import fittogether_app.composeapp.generated.resources.verify_email_input_email
+import fittogether_app.composeapp.generated.resources.verify_email_register_label
+import fittogether_app.composeapp.generated.resources.verify_email_register_with_apple
+import fittogether_app.composeapp.generated.resources.verify_email_register_with_google
+import fittogether_app.composeapp.generated.resources.verify_email_request_code_button
+import fittogether_app.composeapp.generated.resources.verify_email_subtitle
+import fittogether_app.composeapp.generated.resources.verify_email_title
+import kotlinx.coroutines.launch
 
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -77,29 +80,31 @@ fun VerifyEmailContent(
     navigateToConfirmCode: (email: String) -> Unit
 ) {
     val keyboard = LocalFocusManager.current
+    val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(state.navigateToConfirmCode) {
-        if (state.navigateToConfirmCode) {
-            navigateToConfirmCode(state.email)
+    when {
+        state.navigateToConfirmCode -> {
+            LaunchedEffect(true) {
+                navigateToConfirmCode(state.email)
+            }
+        }
+
+        state.error != null -> {
+            coroutineScope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = state.error.message ?: "Aconteceu algo de errado!",
+                )
+            }
         }
     }
 
     Scaffold(
         modifier = Modifier.background(Background).statusBarsPadding(),
+        scaffoldState = scaffoldState,
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        navigateBack()
-                    }
-                    .padding(24.dp)
-            ) {
-                Image(
-                    modifier = Modifier.size(18.dp),
-                    painter = painterResource(Res.drawable.ic_arrow_back),
-                    contentDescription = null
-                )
+            DefaultTopbar {
+                navigateBack()
             }
         }
     ) { innerPadding ->
@@ -107,19 +112,19 @@ fun VerifyEmailContent(
             modifier = Modifier.padding(innerPadding).padding(24.dp)
         ) {
             Text(
-                text = "Crie sua conta",
+                text = stringResource(Res.string.verify_email_title),
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
             Text(
-                text = "Informe seu e-mail para iniciar o cadastro",
+                text = stringResource(Res.string.verify_email_subtitle),
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
             DefaultInput(
                 text = state.email,
-                placeholder = "E-mail",
+                placeholder = stringResource(Res.string.verify_email_input_email),
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Done,
                 onValueChange = {
@@ -132,12 +137,14 @@ fun VerifyEmailContent(
             )
             Spacer(modifier = Modifier.height(16.dp))
             DefaultButton(
+                modifier = Modifier.height(46.dp),
                 isRequesting = state.isRequesting,
-                label = "Enviar código de verificação",
+                label = stringResource(Res.string.verify_email_request_code_button),
                 backgroundColor = Secondary,
                 borderColor = Secondary,
                 textColor = White,
                 onClick = {
+                    keyboard.clearFocus()
                     action(VerifyEmailIntents.SendEmail)
                 }
             )
@@ -152,7 +159,7 @@ fun VerifyEmailContent(
                 Text(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     textAlign = TextAlign.Center,
-                    text = "ou cadastre-se com",
+                    text = stringResource(Res.string.verify_email_register_label),
                     color = Grey400
                 )
                 Spacer(
@@ -162,7 +169,7 @@ fun VerifyEmailContent(
             Spacer(modifier = Modifier.height(24.dp))
             DefaultButton(
                 modifier = Modifier.height(46.dp),
-                label = "Cadastrar com google",
+                label = stringResource(Res.string.verify_email_register_with_google),
                 backgroundColor = White,
                 borderColor = Grey600,
                 textColor = Grey600,
@@ -174,7 +181,7 @@ fun VerifyEmailContent(
             Spacer(modifier = Modifier.height(24.dp))
             DefaultButton(
                 modifier = Modifier.height(46.dp),
-                label = "Cadastrar com apple",
+                label = stringResource(Res.string.verify_email_register_with_apple),
                 backgroundColor = White,
                 borderColor = Grey600,
                 textColor = Grey600,

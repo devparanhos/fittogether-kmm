@@ -19,7 +19,7 @@ open class BaseViewModel : ViewModel() {
             } ?: run {
                 onError(
                     request.error ?: ApiError(
-                        message = "",
+                        message = "Aconteceu algo de errado. Tente novamente!",
                         statusCode = 500,
                         errors = null,
                         internalCode = ""
@@ -29,7 +29,7 @@ open class BaseViewModel : ViewModel() {
         } catch (exception: Exception) {
             onError(
                 ApiError(
-                    message = "",
+                    message = "Aconteceu algo de errado. Tente novamente!",
                     statusCode = 500,
                     errors = null,
                     internalCode = ""

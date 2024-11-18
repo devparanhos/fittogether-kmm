@@ -31,7 +31,7 @@ class VerifyEmailViewModel(
                     callUseCase(
                         prepareUi = {
                             _state.update {
-                                it.copy(isRequesting = true)
+                                it.copy(isRequesting = true, error = null)
                             }
                         },
                         useCase = {
@@ -45,10 +45,11 @@ class VerifyEmailViewModel(
                                 )
                             }
                         },
-                        onError = {
+                        onError = { error ->
                             _state.update {
                                 it.copy(
                                     isRequesting = false,
+                                    error = error
                                 )
                             }
                         }

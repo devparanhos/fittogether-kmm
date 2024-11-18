@@ -15,10 +15,12 @@ class ApiWrapper {
                 data = mapper(request.body<R>())
             )
 
-            else -> ResultAPI(
-                data = null,
-                error = Json.decodeFromString<ApiError>(request.bodyAsText())
-            )
+            else -> {
+                ResultAPI(
+                    data = null,
+                    error = Json.decodeFromString<ApiError>(request.bodyAsText())
+                )
+            }
         }
     }
 }

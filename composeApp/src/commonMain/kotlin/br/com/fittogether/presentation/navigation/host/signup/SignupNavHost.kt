@@ -28,7 +28,9 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController) {
         composable<SignupRoutes.ConfirmCode> {
             ConfirmCodeScreen(
                 email = it.toRoute<SignupRoutes.ConfirmCode>().email
-            )
+            ) {
+                navController.popBackStack()
+            }
         }
     }
 }
