@@ -12,6 +12,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,10 +31,9 @@ import androidx.compose.ui.unit.sp
 import br.com.fittogether.presentation.component.button.DefaultButton
 import br.com.fittogether.presentation.component.input.DefaultInput
 import br.com.fittogether.presentation.component.topbar.DefaultTopbar
-import br.com.fittogether.presentation.feature.signup.verifyEmail.intent.VerifyEmailIntents
+import br.com.fittogether.presentation.feature.signup.verifyEmail.intent.VerifyEmailIntent
 import br.com.fittogether.presentation.feature.signup.verifyEmail.state.VerifyEmailState
 import br.com.fittogether.presentation.feature.signup.verifyEmail.viewmodel.VerifyEmailViewModel
-import br.com.fittogether.presentation.ui.color.Background
 import br.com.fittogether.presentation.ui.color.Grey400
 import br.com.fittogether.presentation.ui.color.Grey600
 import br.com.fittogether.presentation.ui.color.Secondary
@@ -64,6 +64,12 @@ fun VerifyEmailScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    DisposableEffect(true) {
+        onDispose {
+            viewModel.submitIntent(intent = VerifyEmailIntent.Clear)
+        }
+    }
+
     VerifyEmailContent(
         state = state,
         action = viewModel::submitIntent,
@@ -74,7 +80,7 @@ fun VerifyEmailScreen(
 
 @Composable
 fun VerifyEmailContent(
-    action: (VerifyEmailIntents) -> Unit,
+    action: (VerifyEmailIntent) -> Unit,
     state: VerifyEmailState,
     navigateBack: () -> Unit,
     navigateToConfirmCode: (email: String) -> Unit
@@ -100,7 +106,8 @@ fun VerifyEmailContent(
     }
 
     Scaffold(
-        modifier = Modifier.background(Background).statusBarsPadding(),
+        modifier = Modifier.statusBarsPadding(),
+        backgroundColor = White,
         scaffoldState = scaffoldState,
         topBar = {
             DefaultTopbar {
@@ -128,24 +135,25 @@ fun VerifyEmailContent(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Done,
                 onValueChange = {
-                    action(VerifyEmailIntents.UpdateEmail(it))
+                    action(VerifyEmailIntent.UpdateEmail(it))
                 },
                 onDone = {
                     keyboard.clearFocus()
-                    action(VerifyEmailIntents.SendEmail)
+                    action(VerifyEmailIntent.SendEmail)
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
             DefaultButton(
                 modifier = Modifier.height(46.dp),
                 isRequesting = state.isRequesting,
+                enabled = !state.isRequesting,
                 label = stringResource(Res.string.verify_email_request_code_button),
                 backgroundColor = Secondary,
                 borderColor = Secondary,
                 textColor = White,
                 onClick = {
                     keyboard.clearFocus()
-                    action(VerifyEmailIntents.SendEmail)
+                    action(VerifyEmailIntent.SendEmail)
                 }
             )
             Spacer(modifier = Modifier.height(32.dp))

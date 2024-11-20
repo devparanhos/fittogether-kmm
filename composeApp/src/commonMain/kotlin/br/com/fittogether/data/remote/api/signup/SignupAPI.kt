@@ -1,5 +1,7 @@
 package br.com.fittogether.data.remote.api.signup
 
+import br.com.fittogether.data.remote.dto.request.CreateUserRequest
+import br.com.fittogether.data.remote.dto.request.ValidateCodeRequest
 import br.com.fittogether.data.remote.dto.request.VerifyEmailRequest
 
 import io.ktor.client.HttpClient
@@ -12,6 +14,18 @@ class SignupAPI(
 ) {
     suspend fun verifyEmail(request: VerifyEmailRequest) : HttpResponse {
         return httpClient.post("users/validate-email") {
+            setBody(request)
+        }
+    }
+
+    suspend fun validateCode(request: ValidateCodeRequest) : HttpResponse {
+        return httpClient.post("users/validate-code") {
+            setBody(request)
+        }
+    }
+
+    suspend fun createUser(request: CreateUserRequest) : HttpResponse {
+        return httpClient.post("users") {
             setBody(request)
         }
     }

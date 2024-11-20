@@ -6,6 +6,7 @@ import br.com.fittogether.di.modules.domain.domainModule
 import br.com.fittogether.di.modules.network.engineHttpClient
 import br.com.fittogether.di.modules.network.networkModule
 import br.com.fittogether.di.modules.viewmodel.viewModelModule
+
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 

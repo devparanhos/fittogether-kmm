@@ -8,7 +8,7 @@ import br.com.fittogether.domain.repository.signup.SignupRepository
 class VerifyEmailUseCase(
     private val repository: SignupRepository
 ) {
-    suspend fun verifyEmail(email: String) : ResultAPI<VerifyEmail?> {
+    suspend operator fun invoke(email: String) : ResultAPI<VerifyEmail?> {
         return repository.verifyEmail(request = VerifyEmail(email = email).toDto())
     }
 }

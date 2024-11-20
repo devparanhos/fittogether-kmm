@@ -28,4 +28,7 @@
     <string name="confirm_code_title">Validação do e-mail</string>
     <string name="confirm_code_subtitle">Informe o código recebido no seu e-mail</string>
     <string name="confirm_code_verify_code">Verificar código</string>
+
+    <string name="authentication_label_insert_phone">Insira aqui o seu celular</string>
+    <string name="authentication_country_prefix">+55 | </string>
 </resources>

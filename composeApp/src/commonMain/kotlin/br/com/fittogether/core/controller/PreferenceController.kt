@@ -1,5 +1,6 @@
 package br.com.fittogether.core.controller
 
+import br.com.fittogether.domain.model.signup.User
 import com.russhwolf.settings.Settings
 
 class PreferenceController(
@@ -16,5 +17,13 @@ class PreferenceController(
 
     fun setOnboarding() {
         settings.putBoolean(ONBOARDING_KEY, true)
+    }
+
+    fun getUser() : String {
+        return settings.getString("token", "")
+    }
+
+    fun setUser(token: String) {
+        settings.putString("token", token)
     }
 }

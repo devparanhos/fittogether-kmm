@@ -3,7 +3,7 @@ package br.com.fittogether.presentation.feature.signup.verifyEmail.viewmodel
 import androidx.lifecycle.viewModelScope
 
 import br.com.fittogether.domain.usecase.signup.VerifyEmailUseCase
-import br.com.fittogether.presentation.feature.signup.verifyEmail.intent.VerifyEmailIntents
+import br.com.fittogether.presentation.feature.signup.verifyEmail.intent.VerifyEmailIntent
 import br.com.fittogether.presentation.feature.signup.verifyEmail.state.VerifyEmailState
 import br.com.fittogether.presentation.viewmodel.BaseViewModel
 
@@ -18,15 +18,15 @@ class VerifyEmailViewModel(
     private val _state = MutableStateFlow(VerifyEmailState())
     val state = _state.asStateFlow()
 
-    fun submitIntent(intent: VerifyEmailIntents) {
+    fun submitIntent(intent: VerifyEmailIntent) {
         when(intent) {
-            is VerifyEmailIntents.UpdateEmail -> {
+            is VerifyEmailIntent.UpdateEmail -> {
                 _state.update {
                     it.copy(email = intent.email)
                 }
             }
 
-            is VerifyEmailIntents.SendEmail -> {
+            is VerifyEmailIntent.SendEmail -> {
                 viewModelScope.launch {
                     callUseCase(
                         prepareUi = {
@@ -35,7 +35,7 @@ class VerifyEmailViewModel(
                             }
                         },
                         useCase = {
-                            verifyEmailUseCase.verifyEmail(email = state.value.email)
+                            verifyEmailUseCase(email = state.value.email)
                         },
                         onSuccess = {
                             _state.update {
@@ -55,6 +55,10 @@ class VerifyEmailViewModel(
                         }
                     )
                 }
+            }
+
+            is VerifyEmailIntent.Clear -> {
+                clearState(state = _state, defaultValue = VerifyEmailState())
             }
         }
     }

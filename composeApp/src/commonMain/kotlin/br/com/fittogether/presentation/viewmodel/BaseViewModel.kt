@@ -3,6 +3,8 @@ package br.com.fittogether.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import br.com.fittogether.data.remote.wrapper.ApiError
 import br.com.fittogether.data.remote.wrapper.ResultAPI
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 open class BaseViewModel : ViewModel() {
     suspend fun <D> callUseCase(
@@ -36,5 +38,9 @@ open class BaseViewModel : ViewModel() {
                 )
             )
         }
+    }
+
+    protected fun <D> clearState(state: MutableStateFlow<D>, defaultValue: D) {
+        state.value = defaultValue
     }
 }
