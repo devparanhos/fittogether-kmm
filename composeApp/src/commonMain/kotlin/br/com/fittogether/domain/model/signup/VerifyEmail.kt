@@ -1,8 +1,10 @@
 package br.com.fittogether.domain.model.signup
 
+import br.com.fittogether.core.enums.UserStatus
+
 data class VerifyEmail(
-    val email: String = "",
-    val status: String? = "",
-    val sendingCode: Boolean? = false,
-    val message: String? = ""
+    val email: String? = null,
+    val status: UserStatus? = null,
+    val sendingCode: Boolean? = null,
+    val message: String? = null
 )

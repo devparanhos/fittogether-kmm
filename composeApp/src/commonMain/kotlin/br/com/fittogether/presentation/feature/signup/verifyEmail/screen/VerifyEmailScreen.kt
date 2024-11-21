@@ -10,13 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
@@ -27,8 +25,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import br.com.fittogether.presentation.common.dialogs.DialogType
 
 import br.com.fittogether.presentation.component.button.DefaultButton
+import br.com.fittogether.presentation.component.dialog.EmailUsedDialog
+import br.com.fittogether.presentation.component.dialog.ErrorDialog
 import br.com.fittogether.presentation.component.input.DefaultInput
 import br.com.fittogether.presentation.component.topbar.DefaultTopbar
 import br.com.fittogether.presentation.feature.signup.verifyEmail.intent.VerifyEmailIntent
@@ -48,7 +51,6 @@ import fittogether_app.composeapp.generated.resources.verify_email_register_with
 import fittogether_app.composeapp.generated.resources.verify_email_request_code_button
 import fittogether_app.composeapp.generated.resources.verify_email_subtitle
 import fittogether_app.composeapp.generated.resources.verify_email_title
-import kotlinx.coroutines.launch
 
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -59,7 +61,9 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 fun VerifyEmailScreen(
     viewModel: VerifyEmailViewModel = koinViewModel(),
-    navigateToConfirmCode: (email: String) -> Unit,
+    navigateToRegistration: () -> Unit,
+    navigateToConfirmCode: () -> Unit,
+    navigateToLogin: () -> Unit,
     navigateBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
@@ -74,7 +78,9 @@ fun VerifyEmailScreen(
         state = state,
         action = viewModel::submitIntent,
         navigateBack = navigateBack,
-        navigateToConfirmCode = navigateToConfirmCode
+        navigateToConfirmCode = navigateToConfirmCode,
+        navigateToRegistration = navigateToRegistration,
+        navigateToLogin = navigateToLogin
     )
 }
 
@@ -83,32 +89,61 @@ fun VerifyEmailContent(
     action: (VerifyEmailIntent) -> Unit,
     state: VerifyEmailState,
     navigateBack: () -> Unit,
-    navigateToConfirmCode: (email: String) -> Unit
+    navigateToConfirmCode: () -> Unit,
+    navigateToRegistration: () -> Unit,
+    navigateToLogin: () -> Unit
 ) {
     val keyboard = LocalFocusManager.current
-    val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
 
     when {
         state.navigateToConfirmCode -> {
             LaunchedEffect(true) {
-                navigateToConfirmCode(state.email)
+                navigateToConfirmCode()
             }
         }
 
-        state.error != null -> {
-            coroutineScope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = state.error.message ?: "Aconteceu algo de errado!",
-                )
+        state.navigateToRegistration -> {
+            LaunchedEffect(true) {
+                navigateToRegistration()
             }
+        }
+
+        state.openDialog -> {
+            Dialog(
+                onDismissRequest = {},
+                properties = DialogProperties(dismissOnClickOutside = false),
+                content = {
+                    when(state.dialogType) {
+                        is DialogType.Email -> {
+                            EmailUsedDialog(
+                                onCancel = {
+                                    action(VerifyEmailIntent.OpenCloseDialog)
+                                },
+                                toLogin = {
+                                    action(VerifyEmailIntent.OpenCloseDialog)
+                                    navigateToLogin()
+                                }
+                            )
+                        }
+
+                        else -> {
+                            ErrorDialog(
+                                internalCode = state.error?.internalCode,
+                                message = state.error?.message,
+                                onCancel = {
+                                    action(VerifyEmailIntent.OpenCloseDialog)
+                                }
+                            )
+                        }
+                    }
+                }
+            )
         }
     }
 
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
         backgroundColor = White,
-        scaffoldState = scaffoldState,
         topBar = {
             DefaultTopbar {
                 navigateBack()
@@ -135,7 +170,7 @@ fun VerifyEmailContent(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Done,
                 onValueChange = {
-                    action(VerifyEmailIntent.UpdateEmail(it))
+                    action(VerifyEmailIntent.UpdateEmail(it.lowercase().trim()))
                 },
                 onDone = {
                     keyboard.clearFocus()

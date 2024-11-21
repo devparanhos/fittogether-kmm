@@ -4,4 +4,5 @@ sealed class VerifyEmailIntent {
     data class UpdateEmail(val email: String) : VerifyEmailIntent()
     data object SendEmail : VerifyEmailIntent()
     data object Clear : VerifyEmailIntent()
+    data object OpenCloseDialog : VerifyEmailIntent()
 }

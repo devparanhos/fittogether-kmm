@@ -54,8 +54,7 @@ import org.koin.core.parameter.parametersOf
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun ConfirmCodeScreen(
-    email: String,
-    viewModel: ConfirmCodeViewModel = koinViewModel(parameters = { parametersOf(email) }),
+    viewModel: ConfirmCodeViewModel = koinViewModel(),
     navigateBack: () -> Unit,
     navigateToCreateUser: (email: String) -> Unit
 ) {

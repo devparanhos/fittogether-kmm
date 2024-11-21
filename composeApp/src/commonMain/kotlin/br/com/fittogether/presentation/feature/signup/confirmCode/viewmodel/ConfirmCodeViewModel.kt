@@ -2,6 +2,7 @@ package br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel
 
 import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.viewModelScope
+import br.com.fittogether.core.controller.PreferenceController
 import br.com.fittogether.domain.usecase.signup.ValidateCodeUseCase
 import br.com.fittogether.presentation.feature.signup.confirmCode.intent.ConfirmCodeIntent
 import br.com.fittogether.presentation.feature.signup.confirmCode.state.ConfirmCodeState
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ConfirmCodeViewModel(
-    email: String,
+    private val preferences: PreferenceController,
     private val validateCodeUseCase: ValidateCodeUseCase
 ) : BaseViewModel() {
     private val _state = MutableStateFlow(ConfirmCodeState())
@@ -21,7 +22,7 @@ class ConfirmCodeViewModel(
 
     init {
         _state.update {
-            it.copy(email = email)
+            it.copy(email = preferences.getEmailRegistration())
         }
 
         startCountdown()

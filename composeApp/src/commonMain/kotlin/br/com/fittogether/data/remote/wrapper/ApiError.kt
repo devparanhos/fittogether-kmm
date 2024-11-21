@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ApiError(
     @SerialName("message")
-    val message: String?,
+    val message: String? = null,
 
     @SerialName("internalCode")
-    val internalCode: String,
+    val internalCode: String? = null,
 
     @SerialName("statusCode")
-    val statusCode: Int,
+    val statusCode: Int? = null,
 
     @SerialName("errors")
     val errors: List<FieldError>? = null

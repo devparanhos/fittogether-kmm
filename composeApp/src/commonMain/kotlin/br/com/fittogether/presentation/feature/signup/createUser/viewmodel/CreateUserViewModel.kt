@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonPrimitive
 
 class CreateUserViewModel(
-    email: String,
     private val createUserUseCase: CreateUserUseCase,
     private val preferences: PreferenceController
 ) : BaseViewModel() {
@@ -23,7 +22,7 @@ class CreateUserViewModel(
 
     init {
         _state.update {
-            it.copy(email = email)
+            it.copy(email = preferences.getEmailRegistration())
         }
     }
 

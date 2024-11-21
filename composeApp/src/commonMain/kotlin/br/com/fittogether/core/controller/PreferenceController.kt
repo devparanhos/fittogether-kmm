@@ -9,6 +9,7 @@ class PreferenceController(
     companion object {
         const val BASE_URL = "https://fittogether-api.onrender.com"
         const val ONBOARDING_KEY = "ONBOARDING"
+        const val EMAIL_REGISTRATION = "EMAIL_REGISTRATION"
     }
 
     fun hasOnboarding() : Boolean {
@@ -17,6 +18,14 @@ class PreferenceController(
 
     fun setOnboarding() {
         settings.putBoolean(ONBOARDING_KEY, true)
+    }
+
+    fun setEmailRegistration(email: String) {
+        settings.putString(EMAIL_REGISTRATION, email)
+    }
+
+    fun getEmailRegistration() : String {
+        return settings.getString(EMAIL_REGISTRATION, "")
     }
 
     fun getUser() : String {

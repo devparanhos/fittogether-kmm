@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 class VerifyEmailRequest(
     @SerialName("email")
-    val email: String = ""
+    val email: String? = ""
 )

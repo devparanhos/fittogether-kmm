@@ -4,14 +4,13 @@ import androidx.lifecycle.ViewModel
 import br.com.fittogether.data.remote.wrapper.ApiError
 import br.com.fittogether.data.remote.wrapper.ResultAPI
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 
 open class BaseViewModel : ViewModel() {
     suspend fun <D> callUseCase(
         prepareUi : (() -> Unit)? = null,
         useCase: suspend () -> ResultAPI<D?>,
         onSuccess: (D) -> Unit,
-        onError: (ApiError) -> Unit
+        onError: (ApiError?) -> Unit
     ) {
         try {
             prepareUi?.invoke()
@@ -20,21 +19,16 @@ open class BaseViewModel : ViewModel() {
                 onSuccess(it)
             } ?: run {
                 onError(
-                    request.error ?: ApiError(
-                        message = "Aconteceu algo de errado. Tente novamente!",
-                        statusCode = 500,
-                        errors = null,
-                        internalCode = ""
-                    )
+                    request.error
                 )
             }
         } catch (exception: Exception) {
             onError(
                 ApiError(
-                    message = "Aconteceu algo de errado. Tente novamente!",
+                    message = exception.message,
                     statusCode = 500,
                     errors = null,
-                    internalCode = ""
+                    internalCode = null
                 )
             )
         }

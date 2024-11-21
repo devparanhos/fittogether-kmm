@@ -8,8 +8,10 @@ import androidx.navigation.toRoute
 
 import br.com.fittogether.presentation.feature.signup.confirmCode.screen.ConfirmCodeScreen
 import br.com.fittogether.presentation.feature.signup.createUser.screen.CreateUserScreen
+import br.com.fittogether.presentation.feature.signup.gender.screen.GenderScreen
 import br.com.fittogether.presentation.feature.signup.verifyEmail.screen.VerifyEmailScreen
 import br.com.fittogether.presentation.navigation.route.signup.SignupRoutes
+import br.com.fittogether.presentation.navigation.route.start.StartRoutes
 
 fun NavGraphBuilder.signupNavHost(navController: NavHostController) {
     navigation<SignupRoutes.Graph>(
@@ -20,29 +22,36 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController) {
                 navigateBack = {
                     navController.popBackStack()
                 },
-                navigateToConfirmCode = { email ->
-                    navController.navigate(SignupRoutes.ConfirmCode(email = email))
+                navigateToConfirmCode = {
+                    navController.navigate(SignupRoutes.ConfirmCode)
+                },
+                navigateToRegistration = {
+                    navController.navigate(SignupRoutes.CreateUser)
+                },
+                navigateToLogin = {
+                    navController.navigate(StartRoutes.Login)
                 }
             )
         }
 
         composable<SignupRoutes.ConfirmCode> {
             ConfirmCodeScreen(
-                email = it.toRoute<SignupRoutes.ConfirmCode>().email,
                 navigateBack = {
                     navController.popBackStack()
 
                 },
                 navigateToCreateUser = {
-                    navController.navigate(SignupRoutes.CreateUser(email = it))
+                    navController.navigate(SignupRoutes.CreateUser)
                 }
             )
         }
 
         composable<SignupRoutes.CreateUser> {
-            CreateUserScreen(
-                email = it.toRoute<SignupRoutes.ConfirmCode>().email
-            )
+            CreateUserScreen()
+        }
+
+        composable<SignupRoutes.Gender> {
+            GenderScreen()
         }
     }
 }

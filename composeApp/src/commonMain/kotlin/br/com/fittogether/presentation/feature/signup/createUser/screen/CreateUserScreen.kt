@@ -56,14 +56,12 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.core.parameter.parameterSetOf
 import org.koin.core.parameter.parametersOf
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun CreateUserScreen(
-    email: String,
-    viewModel: CreateUserViewModel = koinViewModel(parameters = { parametersOf(email) })
+    viewModel: CreateUserViewModel = koinViewModel()
 ) {
 
     val state by viewModel.state.collectAsState()

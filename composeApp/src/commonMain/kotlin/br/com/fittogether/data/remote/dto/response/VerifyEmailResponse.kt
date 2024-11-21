@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class VerifyEmailResponse(
     @SerialName("status")
-    val status: String? = null,
+    val status: String,
 
     @SerialName("sending_code")
     val sendingCode: Boolean? = null,

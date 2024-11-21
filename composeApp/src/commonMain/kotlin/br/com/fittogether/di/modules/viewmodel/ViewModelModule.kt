@@ -17,20 +17,20 @@ val viewModelModule = module {
 
     viewModel {
         VerifyEmailViewModel(
+            preferences = get(),
             verifyEmailUseCase = get()
         )
     }
 
     viewModel {
         ConfirmCodeViewModel(
-            email = get(),
+            preferences = get(),
             validateCodeUseCase = get()
         )
     }
 
     viewModel {
         CreateUserViewModel(
-            email = get(),
             createUserUseCase = get(),
             preferences = get()
         )

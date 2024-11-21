@@ -10,8 +10,11 @@ sealed class SignupRoutes {
     data object VerifyEmail : SignupRoutes()
 
     @Serializable
-    data class ConfirmCode(val email: String = "") : SignupRoutes()
+    data object ConfirmCode : SignupRoutes()
 
     @Serializable
-    data class CreateUser(val email: String = "") : SignupRoutes()
+    data object CreateUser : SignupRoutes()
+
+    @Serializable
+    data object Gender : SignupRoutes()
 }

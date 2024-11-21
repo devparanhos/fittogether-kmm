@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import br.com.fittogether.presentation.feature.login.screen.LoginScreen
 
 import br.com.fittogether.presentation.feature.onboarding.screen.OnboardingScreen
 import br.com.fittogether.presentation.feature.start.screen.StartScreen
@@ -33,6 +34,10 @@ fun NavGraphBuilder.startNavHost(navController: NavHostController, startDestinat
             StartScreen {
                 navController.navigate(SignupRoutes.Graph)
             }
+        }
+
+        composable<StartRoutes.Login> {
+            LoginScreen()
         }
     }
 }

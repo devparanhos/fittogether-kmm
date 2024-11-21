@@ -15,4 +15,7 @@ sealed class StartRoutes {
 
     @Serializable
     data object Start : StartRoutes()
+
+    @Serializable
+    data object Login : StartRoutes()
 }
