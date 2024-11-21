@@ -31,7 +31,7 @@ class PreferenceController(
         return settings.getString("token", "")
     }
 
-    fun setUser(token: String) {
-        settings.putString("token", token)
+    fun setUser(token: String?) {
+        settings.putString("token", "$token")
     }
 }

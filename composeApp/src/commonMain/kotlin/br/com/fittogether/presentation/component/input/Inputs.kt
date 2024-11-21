@@ -35,6 +35,7 @@ import br.com.fittogether.core.util.phoneFilter
 import br.com.fittogether.presentation.ui.color.Error
 import br.com.fittogether.presentation.ui.color.Grey300
 import br.com.fittogether.presentation.ui.color.Grey400
+import br.com.fittogether.presentation.ui.color.Grey700
 import br.com.fittogether.presentation.ui.color.Secondary
 
 import fittogether_app.composeapp.generated.resources.Res
@@ -50,7 +51,8 @@ fun InputCode(
     modifier: Modifier = Modifier,
     number: String,
     imeAction: ImeAction,
-    onTextChange: (text: String) -> Unit
+    onTextChange: (text: String) -> Unit,
+    hasError: Boolean = false
 ) {
     OutlinedTextField(
         modifier = modifier.width(40.dp),
@@ -67,10 +69,13 @@ fun InputCode(
             keyboardType = KeyboardType.Number,
             imeAction = imeAction
         ),
-        colors = TextFieldDefaults.textFieldColors(
+        colors = TextFieldDefaults.outlinedTextFieldColors(
             backgroundColor = Color.White,
-            focusedIndicatorColor = Color.Gray,
-            cursorColor = Color.Gray
+            unfocusedBorderColor = if (hasError) Error else Grey400,
+            unfocusedLabelColor = if (hasError) Error else Grey400,
+            focusedLabelColor = if (hasError) Error else Grey700,
+            focusedBorderColor = if (hasError) Error else Grey700,
+            cursorColor = Grey700
         ),
         textStyle = TextStyle(
             textAlign = TextAlign.Center,
@@ -95,7 +100,7 @@ fun DefaultInput(
 ) {
     CompositionLocalProvider(
         LocalTextSelectionColors provides TextSelectionColors(
-            handleColor = Secondary,
+            handleColor = Grey700,
             backgroundColor = Grey300
         )
     ) {
@@ -118,11 +123,11 @@ fun DefaultInput(
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     backgroundColor = if (readOnly) { Grey300 } else { Color.White },
-                    unfocusedBorderColor = Grey400,
-                    unfocusedLabelColor = Grey400,
-                    focusedLabelColor = Secondary,
-                    focusedBorderColor = Secondary,
-                    cursorColor = Secondary
+                    unfocusedBorderColor = if (hasError) Error else Grey400,
+                    unfocusedLabelColor = if (hasError) Error else Grey400,
+                    focusedLabelColor = if (hasError) Error else Grey700,
+                    focusedBorderColor = if (hasError) Error else Grey700,
+                    cursorColor = Grey700
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
@@ -137,7 +142,9 @@ fun DefaultInput(
             messageError?.let {
                 Text(
                     text = it,
-                    color = Error
+                    color = Error,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(start = 8.dp)
                 )
             }
         }

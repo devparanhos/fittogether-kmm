@@ -29,13 +29,20 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import br.com.fittogether.presentation.common.dialogs.DialogType
 
 import br.com.fittogether.presentation.component.button.CountButton
 import br.com.fittogether.presentation.component.button.DefaultButton
+import br.com.fittogether.presentation.component.dialog.EmailUsedDialog
+import br.com.fittogether.presentation.component.dialog.ErrorDialog
 import br.com.fittogether.presentation.component.input.InputCode
 import br.com.fittogether.presentation.feature.signup.confirmCode.intent.ConfirmCodeIntent
 import br.com.fittogether.presentation.feature.signup.confirmCode.state.ConfirmCodeState
 import br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel.ConfirmCodeViewModel
+import br.com.fittogether.presentation.feature.signup.verifyEmail.intent.VerifyEmailIntent
+import br.com.fittogether.presentation.ui.color.Error
 import br.com.fittogether.presentation.ui.color.Grey400
 import br.com.fittogether.presentation.ui.color.Primary
 import br.com.fittogether.presentation.ui.color.Secondary
@@ -49,7 +56,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.core.parameter.parametersOf
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -80,11 +86,31 @@ fun ConfirmCodeContent(
         List(6) { FocusRequester() }
     }
 
-    if (state.navigateToCreateUser) {
-        LaunchedEffect(true) {
-            navigateToCreateUser(state.email)
+    when {
+        state.navigateToCreateUser -> {
+            LaunchedEffect(true) {
+                navigateToCreateUser(state.email)
+            }
+        }
+
+        state.openDialog -> {
+            Dialog(
+                onDismissRequest = {},
+                properties = DialogProperties(dismissOnClickOutside = false),
+                content = {
+                    ErrorDialog(
+                        internalCode = state.error?.internalCode,
+                        message = state.error?.message,
+                        onCancel = {
+                            action(ConfirmCodeIntent.OpenCloseDialog)
+                        }
+                    )
+                }
+            )
         }
     }
+
+
 
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
@@ -149,27 +175,38 @@ fun ConfirmCodeContent(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                for (i in 0..5){
+                for (i in 0..5) {
                     InputCode(
                         modifier = Modifier.weight(1.0f).focusRequester(focusRequesters[i]),
                         number = state.listCodes[i],
-                        imeAction = if(i == 5) ImeAction.Done else ImeAction.Next,
-                        onTextChange = {
-                            if (it.length == 1 && i <= 4) {
+                        imeAction = if (i == 5) ImeAction.Done else ImeAction.Next,
+                        hasError = state.fieldErrors?.get("code") != null,
+                        onTextChange = { text ->
+                            if (text.isEmpty() && i > 0) {
+                                focusRequesters[i - 1].requestFocus()
+                            } else if (text.length == 1 && i <= 4) {
                                 focusRequesters[i + 1].requestFocus()
                             } else if (i == 5) {
                                 keyboard.clearFocus()
                             }
 
-                            action(ConfirmCodeIntent.UpdateCode(code = it, index = i))
+                            action(ConfirmCodeIntent.UpdateCode(code = text, index = i))
                         }
                     )
                 }
             }
+            state.fieldErrors?.get("code")?.let {
+                Text(
+                    text = it,
+                    fontSize = 12.sp,
+                    color = Error
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             DefaultButton(
                 modifier = Modifier.height(46.dp),
-                isRequesting = false,
+                enabled = !state.isVerifyingCode,
+                isRequesting = state.isVerifyingCode,
                 label = "Verificar código",
                 backgroundColor = Secondary,
                 borderColor = Secondary,
@@ -192,10 +229,6 @@ fun ConfirmCodeContent(
             ) {
                 Text(
                     text = state.email,
-                    fontWeight = FontWeight.Medium
-                )
-                Text(
-                    text = "alterar",
                     fontWeight = FontWeight.Medium
                 )
             }

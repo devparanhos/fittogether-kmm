@@ -10,5 +10,6 @@ data class VerifyEmailState(
     val navigateToRegistration: Boolean = false,
     val error: ApiError? = null,
     val openDialog: Boolean = false,
-    val dialogType: DialogType? = null
+    val dialogType: DialogType? = null,
+    val fieldErrors: Map<String?, String?>? = null
 )

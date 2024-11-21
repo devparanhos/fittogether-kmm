@@ -165,13 +165,6 @@ fun StartContent(
                                 navigateToSignup()
                             }
                         )
-                        Spacer(modifier = Modifier.height(24.dp))
-                        Text(
-                            modifier = Modifier.padding(horizontal = 8.dp).weight(0.5f).fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            text = stringResource(Res.string.label_politics),
-                            color = Grey400
-                        )
                     }
                 }
             }

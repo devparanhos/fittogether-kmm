@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -93,6 +94,7 @@ fun WelcomeContent(
                     textAlign = TextAlign.Center
                 )
                 DefaultButton(
+                    modifier = Modifier.height(46.dp),
                     label = stringResource(Res.string.button_begin),
                     onClick = {
                         navigateOnboarding()

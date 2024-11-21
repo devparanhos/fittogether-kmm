@@ -1,12 +1,12 @@
 package br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel
 
-import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.viewModelScope
 import br.com.fittogether.core.controller.PreferenceController
 import br.com.fittogether.domain.usecase.signup.ValidateCodeUseCase
 import br.com.fittogether.presentation.feature.signup.confirmCode.intent.ConfirmCodeIntent
 import br.com.fittogether.presentation.feature.signup.confirmCode.state.ConfirmCodeState
 import br.com.fittogether.presentation.viewmodel.BaseViewModel
+
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,6 +37,10 @@ class ConfirmCodeViewModel(
             is ConfirmCodeIntent.ValidateCode -> {
                 validateCode()
             }
+
+            is ConfirmCodeIntent.OpenCloseDialog -> {
+                updateDialog()
+            }
         }
     }
 
@@ -51,7 +55,12 @@ class ConfirmCodeViewModel(
             }
         }
 
-        _state.update { it.copy(listCodes = newCodes) }
+        _state.update {
+            it.copy(
+                listCodes = newCodes,
+                fieldErrors = it.fieldErrors?.minus("code")
+            )
+        }
     }
 
     private fun startCountdown() {
@@ -73,7 +82,9 @@ class ConfirmCodeViewModel(
         viewModelScope.launch {
             callUseCase(
                 prepareUi = {
-
+                    _state.update {
+                        it.copy(isVerifyingCode = true)
+                    }
                 },
                 useCase = {
                     validateCodeUseCase(
@@ -81,16 +92,34 @@ class ConfirmCodeViewModel(
                         code = state.value.listCodes.joinToString(separator = "")
                     )
                 },
-                onSuccess = {
+                onSuccess = { response ->
                     _state.update {
                         it.copy(
+                            isVerifyingCode = false,
                             navigateToCreateUser = true
                         )
                     }
                 },
-                onError = {
-
+                onError = { error ->
+                    if (error != null) {
+                        _state.update { data ->
+                            data.copy(
+                                isVerifyingCode = false,
+                                error = error,
+                                fieldErrors = error.errors?.associate { it.field to it.message },
+                                openDialog = true
+                            )
+                        }
+                    }
                 }
+            )
+        }
+    }
+
+    private fun updateDialog() {
+        _state.update {
+            it.copy(
+                openDialog = !_state.value.openDialog
             )
         }
     }

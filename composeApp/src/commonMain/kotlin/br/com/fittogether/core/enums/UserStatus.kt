@@ -7,7 +7,7 @@ enum class UserStatus(val value: String) {
     CREATED(value = "CREATED");
 
     companion object {
-        fun findByValue(value: String) : UserStatus {
+        fun findByValue(value: String?) : UserStatus {
             return entries.find { it.value == value } ?: NOT_FOUND
         }
     }

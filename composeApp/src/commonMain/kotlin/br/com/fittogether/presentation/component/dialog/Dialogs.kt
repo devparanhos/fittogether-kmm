@@ -176,7 +176,7 @@ fun EmailUsedDialog(
                         modifier = Modifier.height(40.dp).weight(1.0f),
                         borderColor = Error,
                         backgroundColor = Error,
-                        label = "Fazer login",
+                        label = "Login",
                         onClick = {
                             toLogin()
                         }

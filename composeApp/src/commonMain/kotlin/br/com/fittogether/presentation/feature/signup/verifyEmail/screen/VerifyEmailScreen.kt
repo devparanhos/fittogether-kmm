@@ -175,7 +175,9 @@ fun VerifyEmailContent(
                 onDone = {
                     keyboard.clearFocus()
                     action(VerifyEmailIntent.SendEmail)
-                }
+                },
+                messageError = state.fieldErrors?.get("email"),
+                hasError = state.fieldErrors?.get("email") != null
             )
             Spacer(modifier = Modifier.height(16.dp))
             DefaultButton(

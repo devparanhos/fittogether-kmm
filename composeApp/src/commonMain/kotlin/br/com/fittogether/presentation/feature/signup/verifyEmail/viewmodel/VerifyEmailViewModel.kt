@@ -56,7 +56,7 @@ class VerifyEmailViewModel(
                 },
                 onSuccess = { response ->
                     when(response.status) {
-                        null, UserStatus.NOT_FOUND, UserStatus.IN_VALIDATION,  -> {
+                        null, UserStatus.NOT_FOUND, UserStatus.IN_VALIDATION -> {
                             if (response.sendingCode == true) {
                                 preferences.setEmailRegistration(email = state.value.email)
 
@@ -104,11 +104,14 @@ class VerifyEmailViewModel(
                     }
                 },
                 onError = { error ->
-                    _state.update {
-                        it.copy(
+                    _state.update { data ->
+                        data.copy(
                             isRequesting = false,
                             error = error,
-                            openDialog = true
+                            openDialog = true,
+                            fieldErrors = error?.errors?.let { fields ->
+                                fields.associate { it.field to it.message }
+                            }
                         )
                     }
                 }
@@ -125,8 +128,11 @@ class VerifyEmailViewModel(
     }
 
     private fun updateEmail(email: String) {
-        _state.update {
-            it.copy(email = email)
+        _state.update { data ->
+            data.copy(
+                email = email,
+                fieldErrors = data.fieldErrors?.minus("email")
+            )
         }
     }
 }
