@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ApiError(
+data class ApiErrorResponse(
     @SerialName("message")
     val message: String? = null,
 
@@ -15,5 +15,5 @@ data class ApiError(
     val statusCode: Int? = null,
 
     @SerialName("errors")
-    val errors: List<FieldError>? = null
+    val errors: List<FieldErrorResponse>? = null
 )

@@ -1,4 +1,4 @@
-package br.com.fittogether.data.remote.dto.response
+package br.com.fittogether.data.remote.dto.response.signup
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

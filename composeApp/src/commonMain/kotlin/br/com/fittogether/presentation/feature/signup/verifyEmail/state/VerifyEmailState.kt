@@ -1,6 +1,6 @@
 package br.com.fittogether.presentation.feature.signup.verifyEmail.state
 
-import br.com.fittogether.data.remote.wrapper.ApiError
+import br.com.fittogether.domain.model.error.ApiError
 import br.com.fittogether.presentation.common.dialogs.DialogType
 
 data class VerifyEmailState(

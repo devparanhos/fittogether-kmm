@@ -1,8 +1,8 @@
 package br.com.fittogether.data.remote.api.signup
 
-import br.com.fittogether.data.remote.dto.request.CreateUserRequest
-import br.com.fittogether.data.remote.dto.request.ValidateCodeRequest
-import br.com.fittogether.data.remote.dto.request.VerifyEmailRequest
+import br.com.fittogether.data.remote.dto.request.signup.CreateUserRequest
+import br.com.fittogether.data.remote.dto.request.signup.ValidateCodeRequest
+import br.com.fittogether.data.remote.dto.request.signup.VerifyEmailRequest
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post

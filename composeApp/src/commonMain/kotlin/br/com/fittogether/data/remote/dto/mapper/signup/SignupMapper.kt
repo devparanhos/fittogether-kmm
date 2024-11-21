@@ -2,10 +2,10 @@ package br.com.fittogether.data.remote.dto.mapper.signup
 
 import br.com.fittogether.core.enums.RegistrationStep
 import br.com.fittogether.core.enums.UserStatus
-import br.com.fittogether.data.remote.dto.response.CreateUserResponse
-import br.com.fittogether.data.remote.dto.response.ValidateCodeResponse
-import br.com.fittogether.data.remote.dto.response.VerifyEmailResponse
-import br.com.fittogether.domain.model.signup.User
+import br.com.fittogether.data.remote.dto.response.signup.CreateUserResponse
+import br.com.fittogether.data.remote.dto.response.signup.ValidateCodeResponse
+import br.com.fittogether.data.remote.dto.response.signup.VerifyEmailResponse
+import br.com.fittogether.domain.model.user.User
 import br.com.fittogether.domain.model.signup.ValidateCode
 import br.com.fittogether.domain.model.signup.VerifyEmail
 

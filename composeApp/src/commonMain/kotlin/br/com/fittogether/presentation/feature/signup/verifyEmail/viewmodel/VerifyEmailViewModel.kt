@@ -3,7 +3,7 @@ package br.com.fittogether.presentation.feature.signup.verifyEmail.viewmodel
 import androidx.lifecycle.viewModelScope
 import br.com.fittogether.core.controller.PreferenceController
 import br.com.fittogether.core.enums.UserStatus
-import br.com.fittogether.data.remote.wrapper.ApiError
+import br.com.fittogether.domain.model.error.ApiError
 
 import br.com.fittogether.domain.usecase.signup.VerifyEmailUseCase
 import br.com.fittogether.presentation.common.dialogs.DialogType

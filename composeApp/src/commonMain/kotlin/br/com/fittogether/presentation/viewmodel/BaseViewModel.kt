@@ -1,8 +1,10 @@
 package br.com.fittogether.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import br.com.fittogether.data.remote.wrapper.ApiError
+import br.com.fittogether.data.remote.wrapper.ApiErrorResponse
 import br.com.fittogether.data.remote.wrapper.ResultAPI
+import br.com.fittogether.domain.mapper.error.toDomain
+import br.com.fittogether.domain.model.error.ApiError
 import kotlinx.coroutines.flow.MutableStateFlow
 
 open class BaseViewModel : ViewModel() {
@@ -19,17 +21,17 @@ open class BaseViewModel : ViewModel() {
                 onSuccess(it)
             } ?: run {
                 onError(
-                    request.error
+                    request.error?.toDomain()
                 )
             }
         } catch (exception: Exception) {
             onError(
-                ApiError(
+                ApiErrorResponse(
                     message = exception.message,
                     statusCode = 500,
                     errors = null,
                     internalCode = null
-                )
+                ).toDomain()
             )
         }
     }

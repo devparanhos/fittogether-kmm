@@ -1,8 +1,8 @@
-package br.com.fittogether.domain.mapper
+package br.com.fittogether.domain.mapper.signup
 
-import br.com.fittogether.data.remote.dto.request.CreateUserRequest
-import br.com.fittogether.data.remote.dto.request.ValidateCodeRequest
-import br.com.fittogether.data.remote.dto.request.VerifyEmailRequest
+import br.com.fittogether.data.remote.dto.request.signup.CreateUserRequest
+import br.com.fittogether.data.remote.dto.request.signup.ValidateCodeRequest
+import br.com.fittogether.data.remote.dto.request.signup.VerifyEmailRequest
 import br.com.fittogether.domain.model.signup.CreateUser
 import br.com.fittogether.domain.model.signup.ValidateCode
 import br.com.fittogether.domain.model.signup.VerifyEmail

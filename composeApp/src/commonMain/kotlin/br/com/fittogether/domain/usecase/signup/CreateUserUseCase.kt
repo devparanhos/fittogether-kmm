@@ -1,9 +1,9 @@
 package br.com.fittogether.domain.usecase.signup
 
 import br.com.fittogether.data.remote.wrapper.ResultAPI
-import br.com.fittogether.domain.mapper.toDto
+import br.com.fittogether.domain.mapper.signup.toDto
 import br.com.fittogether.domain.model.signup.CreateUser
-import br.com.fittogether.domain.model.signup.User
+import br.com.fittogether.domain.model.user.User
 import br.com.fittogether.domain.repository.signup.SignupRepository
 
 class CreateUserUseCase(

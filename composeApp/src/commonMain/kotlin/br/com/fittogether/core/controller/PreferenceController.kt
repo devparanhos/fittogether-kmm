@@ -1,6 +1,5 @@
 package br.com.fittogether.core.controller
 
-import br.com.fittogether.domain.model.signup.User
 import com.russhwolf.settings.Settings
 
 class PreferenceController(
