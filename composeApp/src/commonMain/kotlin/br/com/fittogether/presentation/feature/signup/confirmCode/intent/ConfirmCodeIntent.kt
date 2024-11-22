@@ -4,4 +4,5 @@ sealed class ConfirmCodeIntent {
     data class UpdateCode(val code: String, val index: Int) : ConfirmCodeIntent()
     data object ValidateCode : ConfirmCodeIntent()
     data object OpenCloseDialog : ConfirmCodeIntent()
+    data object ResendCode : ConfirmCodeIntent()
 }

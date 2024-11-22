@@ -14,21 +14,20 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -38,9 +37,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+
 import br.com.fittogether.presentation.component.button.DefaultButton
+import br.com.fittogether.presentation.component.dialog.ErrorDialog
 import br.com.fittogether.presentation.component.input.DefaultInput
 import br.com.fittogether.presentation.component.input.InputPhone
+import br.com.fittogether.presentation.feature.signup.confirmCode.intent.ConfirmCodeIntent
 import br.com.fittogether.presentation.feature.signup.createUser.intent.CreateUserIntent
 import br.com.fittogether.presentation.feature.signup.createUser.state.CreateUserState
 import br.com.fittogether.presentation.feature.signup.createUser.viewmodel.CreateUserViewModel
@@ -49,21 +53,21 @@ import br.com.fittogether.presentation.ui.color.Grey400
 import br.com.fittogether.presentation.ui.color.Grey500
 import br.com.fittogether.presentation.ui.color.Grey600
 import br.com.fittogether.presentation.ui.color.Secondary
+
 import fittogether_app.composeapp.generated.resources.Res
 import fittogether_app.composeapp.generated.resources.ic_camera
 import fittogether_app.composeapp.generated.resources.label_politics
+
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.core.parameter.parametersOf
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun CreateUserScreen(
     viewModel: CreateUserViewModel = koinViewModel()
 ) {
-
     val state by viewModel.state.collectAsState()
 
     CreateUserContent(
@@ -78,6 +82,24 @@ fun CreateUserContent(
     action: (CreateUserIntent) -> Unit
 ) {
     val keyboard = LocalFocusManager.current
+
+    when {
+        state.openDialog -> {
+            Dialog(
+                onDismissRequest = {},
+                properties = DialogProperties(dismissOnClickOutside = false),
+                content = {
+                    ErrorDialog(
+                        internalCode = state.error?.internalCode,
+                        message = state.error?.message,
+                        onCancel = {
+                            action(CreateUserIntent.OpenCloseDialog)
+                        }
+                    )
+                }
+            )
+        }
+    }
 
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
@@ -162,7 +184,6 @@ fun CreateUserContent(
                                     colorFilter = ColorFilter.tint(Grey600)
                                 )
                             }
-
                         }
                         Text(
                             modifier = Modifier.padding(top = 16.dp),
@@ -179,7 +200,9 @@ fun CreateUserContent(
                             action(
                                 CreateUserIntent.UpdateName(name = it)
                             )
-                        }
+                        },
+                        messageError = state.fieldErrors?.get("name"),
+                        hasError = state.fieldErrors?.get("name") != null
                     )
                     DefaultInput(
                         modifier = Modifier.padding(top = 16.dp),
@@ -189,38 +212,55 @@ fun CreateUserContent(
                         imeAction = ImeAction.Next,
                         readOnly = true,
                         trailingData = {
-                            Row {
-                                Text("validado")
+                            Row(
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    modifier = Modifier.size(18.dp),
+                                    imageVector = Icons.Default.CheckCircle,
+                                    contentDescription = null,
+                                    tint = Secondary
+                                )
+                                Text(
+                                    modifier = Modifier.padding(start = 4.dp),
+                                    text = "validado",
+                                    color = Secondary,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
                             }
                         },
                         onValueChange = {
-
 
                         }
                     )
                     InputPhone(
                         modifier = Modifier.padding(top = 16.dp),
                         phone = state.cellphone,
+                        label = "Celular",
+                        prefix = "+55",
                         onTextChange = {
                             action(
                                 CreateUserIntent.UpdateCellphone(cellphone = it)
                             )
-                        }
-
+                        },
+                        messageError = state.fieldErrors?.get("cellphone"),
+                        hasError = state.fieldErrors?.get("cellphone") != null
                     )
                     DefaultInput(
                         modifier = Modifier.padding(top = 16.dp),
-
                         text = state.birthdate,
                         placeholder = "Data de nascimento",
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next,
                         onValueChange = {
-
                             action(
                                 CreateUserIntent.UpdateBirthdate(birthdate = it)
                             )
-                        }
+                        },
+                        messageError = state.fieldErrors?.get("birth_date"),
+                        hasError = state.fieldErrors?.get("birth_date") != null
                     )
                     DefaultInput(
                         modifier = Modifier.padding(top = 16.dp),
@@ -233,7 +273,10 @@ fun CreateUserContent(
                             action(
                                 CreateUserIntent.UpdatePassword(password = it)
                             )
-                        }
+                        },
+
+                        messageError = state.fieldErrors?.get("password"),
+                        hasError = state.fieldErrors?.get("password") != null
                     )
                     DefaultInput(
                         modifier = Modifier.padding(top = 16.dp),
@@ -246,11 +289,15 @@ fun CreateUserContent(
                             action(
                                 CreateUserIntent.UpdateConfirmPassword(confirmPassword = it)
                             )
-                        }
+                        },
+
+                        messageError = state.fieldErrors?.get("confirm_password"),
+                        hasError = state.fieldErrors?.get("confirm_passowrd") != null
                     )
                     DefaultButton(
                         modifier = Modifier.padding(top = 24.dp).height(50.dp),
-                        isRequesting = false,
+                        enabled = !state.isRequesting,
+                        isRequesting = state.isRequesting,
                         label = "Salvar dados pessoais",
                         backgroundColor = Secondary,
                         borderColor = Secondary,

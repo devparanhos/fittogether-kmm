@@ -2,7 +2,9 @@ package br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import br.com.fittogether.core.controller.PreferenceController
+import br.com.fittogether.domain.model.error.ApiError
 import br.com.fittogether.domain.usecase.signup.ValidateCodeUseCase
+import br.com.fittogether.domain.usecase.signup.VerifyEmailUseCase
 import br.com.fittogether.presentation.feature.signup.confirmCode.intent.ConfirmCodeIntent
 import br.com.fittogether.presentation.feature.signup.confirmCode.state.ConfirmCodeState
 import br.com.fittogether.presentation.viewmodel.BaseViewModel
@@ -15,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class ConfirmCodeViewModel(
     private val preferences: PreferenceController,
-    private val validateCodeUseCase: ValidateCodeUseCase
+    private val validateCodeUseCase: ValidateCodeUseCase,
+    private val verifyEmailUseCase: VerifyEmailUseCase
 ) : BaseViewModel() {
     private val _state = MutableStateFlow(ConfirmCodeState())
     val state = _state.asStateFlow()
@@ -40,6 +43,10 @@ class ConfirmCodeViewModel(
 
             is ConfirmCodeIntent.OpenCloseDialog -> {
                 updateDialog()
+            }
+
+            is ConfirmCodeIntent.ResendCode -> {
+                resendCode()
             }
         }
     }
@@ -120,6 +127,57 @@ class ConfirmCodeViewModel(
         _state.update {
             it.copy(
                 openDialog = !_state.value.openDialog
+            )
+        }
+    }
+
+    private fun resendCode() {
+        viewModelScope.launch {
+            callUseCase(
+                prepareUi = {
+                    _state.update {
+                        it.copy(
+                            isResendingCode = true,
+                            canResendCode = false
+                        )
+                    }
+                },
+                useCase = {
+                    verifyEmailUseCase(email = preferences.getEmailRegistration())
+                },
+                onSuccess = { response ->
+                    if (response.sendingCode == true) {
+                        _state.update {
+                            it.copy(
+                                isResendingCode = false,
+                                secondsLeft = 100
+                            )
+                        }
+
+                        startCountdown()
+                    } else {
+                        _state.update {
+                            it.copy(
+                                canResendCode = true,
+                                isResendingCode = false,
+                                error = ApiError(
+                                    message = "Não foi possível enviar o código. Tente novamente!"
+                                ),
+                                openDialog = true
+                            )
+                        }
+                    }
+                },
+                onError = { error ->
+                    _state.update { data ->
+                        data.copy(
+                            canResendCode = true,
+                            isResendingCode = false,
+                            error = error,
+                            openDialog = true
+                        )
+                    }
+                }
             )
         }
     }

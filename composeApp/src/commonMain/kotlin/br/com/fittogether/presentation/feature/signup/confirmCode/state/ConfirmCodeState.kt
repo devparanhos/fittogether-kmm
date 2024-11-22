@@ -13,5 +13,6 @@ data class ConfirmCodeState(
     val error: ApiError? = null,
     val openDialog: Boolean = false,
     val dialogType: DialogType? = null,
-    val fieldErrors: Map<String?, String?>? = null
+    val fieldErrors: Map<String?, String?>? = null,
+    val isResendingCode: Boolean = false
 )

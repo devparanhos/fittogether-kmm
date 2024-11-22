@@ -36,15 +36,11 @@ import br.com.fittogether.presentation.ui.color.Error
 import br.com.fittogether.presentation.ui.color.Grey300
 import br.com.fittogether.presentation.ui.color.Grey400
 import br.com.fittogether.presentation.ui.color.Grey700
-import br.com.fittogether.presentation.ui.color.Secondary
 
 import fittogether_app.composeapp.generated.resources.Res
-import fittogether_app.composeapp.generated.resources.authentication_country_prefix
-import fittogether_app.composeapp.generated.resources.authentication_label_insert_phone
 import fittogether_app.composeapp.generated.resources.brasil
 
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun InputCode(
@@ -154,60 +150,77 @@ fun DefaultInput(
 @Composable
 fun InputPhone(
     modifier: Modifier = Modifier,
+    label: String,
+    prefix: String,
     phone: String,
+    hasError: Boolean = false,
+    messageError: String? = null,
     onTextChange: (phone: String) -> Unit,
     onDone: (() -> Unit)? = null
 ) {
     val keyboard = LocalFocusManager.current
 
-    OutlinedTextField(
-        modifier = modifier.fillMaxWidth().height(58.dp),
-        shape = RoundedCornerShape(10.dp),
-        label = {
-            Text(
-                text = stringResource(Res.string.authentication_label_insert_phone)
-            )
-        },
-        value = phone,
-        onValueChange = {
-            if (it.keepOnlyNumbers().length == 11) {
-                keyboard.clearFocus()
-            }
-
-            if (it.keepOnlyNumbers().length < 12) {
-                onTextChange(it)
-            }
-        },
-        leadingIcon = {
-            Row(
-                modifier = Modifier.padding(start = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Image(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(Res.drawable.brasil),
-                    contentDescription = null
-                )
+    Column {
+        OutlinedTextField(
+            modifier = modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(10.dp),
+            label = {
                 Text(
-                    text = stringResource(Res.string.authentication_country_prefix)
+                    text = label
                 )
-            }
-        },
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
-            focusedIndicatorColor = Grey400,
-            cursorColor = Grey400
-        ),
-        visualTransformation = { text -> phoneFilter(text) },
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboard.clearFocus()
-                onDone?.invoke()
-            }
-        ),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
+            },
+            value = phone,
+            onValueChange = {
+                if (it.keepOnlyNumbers().length == 11) {
+                    keyboard.clearFocus()
+                }
+
+                if (it.keepOnlyNumbers().length < 12) {
+                    onTextChange(it)
+                }
+            },
+            leadingIcon = {
+                Row(
+                    modifier = Modifier.padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Image(
+                        modifier = Modifier.size(24.dp),
+                        painter = painterResource(Res.drawable.brasil),
+                        contentDescription = null
+                    )
+                    Text(
+                        text = prefix
+                    )
+                }
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = Color.White ,
+                unfocusedBorderColor = if (hasError) Error else Grey400,
+                unfocusedLabelColor = if (hasError) Error else Grey400,
+                focusedLabelColor = if (hasError) Error else Grey700,
+                focusedBorderColor = if (hasError) Error else Grey700,
+                cursorColor = Grey700
+            ),
+            visualTransformation = { text -> phoneFilter(text) },
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboard.clearFocus()
+                    onDone?.invoke()
+                }
+            ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            )
         )
-    )
+        messageError?.let {
+            Text(
+                text = it,
+                color = Error,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+    }
 }

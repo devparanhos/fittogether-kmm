@@ -31,17 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import br.com.fittogether.presentation.common.dialogs.DialogType
 
 import br.com.fittogether.presentation.component.button.CountButton
 import br.com.fittogether.presentation.component.button.DefaultButton
-import br.com.fittogether.presentation.component.dialog.EmailUsedDialog
 import br.com.fittogether.presentation.component.dialog.ErrorDialog
 import br.com.fittogether.presentation.component.input.InputCode
 import br.com.fittogether.presentation.feature.signup.confirmCode.intent.ConfirmCodeIntent
 import br.com.fittogether.presentation.feature.signup.confirmCode.state.ConfirmCodeState
 import br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel.ConfirmCodeViewModel
-import br.com.fittogether.presentation.feature.signup.verifyEmail.intent.VerifyEmailIntent
 import br.com.fittogether.presentation.ui.color.Error
 import br.com.fittogether.presentation.ui.color.Grey400
 import br.com.fittogether.presentation.ui.color.Primary
@@ -51,6 +48,9 @@ import fittogether_app.composeapp.generated.resources.Res
 import fittogether_app.composeapp.generated.resources.confirm_code_subtitle
 import fittogether_app.composeapp.generated.resources.confirm_code_title
 import fittogether_app.composeapp.generated.resources.ic_arrow_back
+import fittogether_app.composeapp.generated.resources.validate_code_code_not_recevied
+import fittogether_app.composeapp.generated.resources.validate_code_code_sent
+import fittogether_app.composeapp.generated.resources.validate_code_resend_code
 
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -110,8 +110,6 @@ fun ConfirmCodeContent(
         }
     }
 
-
-
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
         backgroundColor = White,
@@ -137,20 +135,21 @@ fun ConfirmCodeContent(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Não recebeu o código? Solicite o reenvio após o tempo",
+                    text = stringResource(Res.string.validate_code_code_not_recevied),
                     color = Grey400,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center
                 )
                 CountButton(
                     modifier = Modifier.height(50.dp).padding(top = 8.dp),
+                    isRequesting = state.isResendingCode,
                     enabled = state.canResendCode,
                     borderColor = Primary,
-                    label = "Reenviar o código",
+                    label = stringResource(Res.string.validate_code_resend_code),
                     backgroundColor = Primary,
                     secondsLeft = state.secondsLeft,
                     onClick = {
-
+                        action(ConfirmCodeIntent.ResendCode)
                     }
                 )
             }
@@ -207,7 +206,7 @@ fun ConfirmCodeContent(
                 modifier = Modifier.height(46.dp),
                 enabled = !state.isVerifyingCode,
                 isRequesting = state.isVerifyingCode,
-                label = "Verificar código",
+                label = stringResource(Res.string.validate_code_resend_code),
                 backgroundColor = Secondary,
                 borderColor = Secondary,
                 textColor = White,
@@ -218,7 +217,7 @@ fun ConfirmCodeContent(
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Código enviado para o e-mail",
+                text = stringResource(Res.string.validate_code_code_sent),
                 fontSize = 13.sp,
                 color = Grey400
             )

@@ -16,7 +16,6 @@
     <string name="label_or_create_account">ou crie sua conta</string>
     <string name="label_politics">Ao entrar você concorda com os termos de uso e política de privacidade</string>
 
-
     <string name="verify_email_title">Crie sua conta</string>
     <string name="verify_email_subtitle">Informe seu e-mail para iniciar o cadastro</string>
     <string name="verify_email_input_email">E-mail</string>
@@ -29,6 +28,14 @@
     <string name="confirm_code_subtitle">Informe o código recebido no seu e-mail</string>
     <string name="confirm_code_verify_code">Verificar código</string>
 
-    <string name="authentication_label_insert_phone">Insira aqui o seu celular</string>
-    <string name="authentication_country_prefix">+55 | </string>
+    <!-- VALIDATE CODE SCREEN -->
+    <string name="validate_code_code_not_recevied">Não recebeu o código? Solicite o reenvio após o tempo</string>
+    <string name="validate_code_resend_code">Reenviar código</string>
+    <string name="validate_code_verify_code">Verificar código</string>
+    <string name="validate_code_code_sent">Código enviado para o e-mail</string>
+
+    <!-- CREATE USER SCREEN -->
+    <string name="create_user_account_creation">Cadastro de conta</string>
+    <string name="create_user_input_cellphone">Celular</string>
+    <string name="create_user_cellphone_prefix">+55 | </string>
 </resources>

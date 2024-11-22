@@ -25,7 +25,8 @@ val viewModelModule = module {
     viewModel {
         ConfirmCodeViewModel(
             preferences = get(),
-            validateCodeUseCase = get()
+            validateCodeUseCase = get(),
+            verifyEmailUseCase = get()
         )
     }
 

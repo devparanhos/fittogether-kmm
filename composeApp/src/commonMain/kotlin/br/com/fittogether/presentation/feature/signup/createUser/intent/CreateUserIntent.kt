@@ -7,4 +7,5 @@ sealed class CreateUserIntent {
     data class UpdatePassword(val password: String) : CreateUserIntent()
     data class UpdateConfirmPassword(val confirmPassword: String) : CreateUserIntent()
     data object SaveUser : CreateUserIntent()
+    data object OpenCloseDialog : CreateUserIntent()
 }
