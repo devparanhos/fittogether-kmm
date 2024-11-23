@@ -23,7 +23,7 @@ fun GenderContent() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                "LOGIN"
+                "GENDER"
             )
         }
     }

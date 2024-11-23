@@ -64,6 +64,14 @@ class CreateUserViewModel(
                 }
             }
 
+            is CreateUserIntent.UpdateUsername -> {
+                _state.update {
+                    it.copy(
+                        username = intent.username
+                    )
+                }
+            }
+
             is CreateUserIntent.UpdatePassword -> {
                 _state.update {
                     it.copy(
@@ -100,11 +108,19 @@ class CreateUserViewModel(
                         password = state.value.password,
                         cellphone = state.value.cellphone,
                         birthdate = state.value.birthdate,
-                        confirmPassword = state.value.confirmPassword
+                        confirmPassword = state.value.confirmPassword,
+                        username = state.value.username
                     )
                 },
-                onSuccess = {
-                    preferences.setUser(token = it.accessToken)
+                onSuccess = { response ->
+                    preferences.setUser(user = response)
+
+                    _state.update {
+                        it.copy(
+                            navigateToGender = true,
+                            isRequesting = false
+                        )
+                    }
                 },
                 onError = { error ->
                     _state.update { data ->

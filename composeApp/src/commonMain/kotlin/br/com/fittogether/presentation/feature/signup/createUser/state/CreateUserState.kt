@@ -10,9 +10,11 @@ data class CreateUserState(
     val birthdate: String = "",
     val password: String = "",
     val confirmPassword: String = "",
+    val username: String = "",
     val error: ApiError? = null,
     val openDialog: Boolean = false,
     val dialogType: DialogType? = null,
     val fieldErrors: Map<String?, String?>? = null,
-    val isRequesting: Boolean = false
+    val isRequesting: Boolean = false,
+    val navigateToGender: Boolean = false
 )

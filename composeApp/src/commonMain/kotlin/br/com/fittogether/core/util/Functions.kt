@@ -3,6 +3,9 @@ package br.com.fittogether.core.util
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
+import br.com.fittogether.domain.model.user.User
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 fun phoneFilter(text: AnnotatedString): TransformedText {
     val cleanedText = text.text.replace(Regex("[^\\d]"), "")
@@ -71,4 +74,12 @@ fun String.formatPhone() : String {
     }
 
     return phone
+}
+
+inline fun <reified D> D.toJson() : String {
+    return Json.encodeToString(this)
+}
+
+inline fun <reified D> String.toObj() : D {
+    return Json.decodeFromString(this)
 }

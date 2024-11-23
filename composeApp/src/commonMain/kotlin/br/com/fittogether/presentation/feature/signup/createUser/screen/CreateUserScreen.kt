@@ -56,7 +56,6 @@ import br.com.fittogether.presentation.ui.color.Grey600
 import br.com.fittogether.presentation.ui.color.Secondary
 
 import fittogether_app.composeapp.generated.resources.Res
-import fittogether_app.composeapp.generated.resources.brasil
 import fittogether_app.composeapp.generated.resources.ic_camera
 import fittogether_app.composeapp.generated.resources.ic_eye
 import fittogether_app.composeapp.generated.resources.ic_eye_off
@@ -70,19 +69,22 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun CreateUserScreen(
-    viewModel: CreateUserViewModel = koinViewModel()
+    viewModel: CreateUserViewModel = koinViewModel(),
+    navigateToGender: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
     CreateUserContent(
         state = state,
-        action = viewModel::submitIntent
+        action = viewModel::submitIntent,
+        navigateToGender = navigateToGender
     )
 }
 
 @Composable
 fun CreateUserContent(
     state: CreateUserState,
+    navigateToGender: () -> Unit,
     action: (CreateUserIntent) -> Unit
 ) {
     val keyboard = LocalFocusManager.current
@@ -103,6 +105,10 @@ fun CreateUserContent(
                     )
                 }
             )
+        }
+
+        state.navigateToGender -> {
+            navigateToGender()
         }
     }
 
@@ -238,6 +244,18 @@ fun CreateUserContent(
                         },
                         onValueChange = {
 
+                        }
+                    )
+                    DefaultInput(
+                        modifier = Modifier.padding(top = 16.dp),
+                        text = state.username,
+                        placeholder = "Usuario",
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next,
+                        onValueChange = {
+                            action(
+                                CreateUserIntent.UpdateUsername(username = it)
+                            )
                         }
                     )
                     InputPhone(

@@ -15,7 +15,8 @@ class CreateUserUseCase(
         birthdate: String,
         cellphone: String,
         confirmPassword: String,
-        password: String
+        password: String,
+        username: String
     ) : ResultAPI<User?> {
         return repository.createUser(
             request = CreateUser(
@@ -24,7 +25,8 @@ class CreateUserUseCase(
                 cellphone = cellphone,
                 birthdate = birthdate,
                 confirmPassword = confirmPassword,
-                password = password
+                password = password,
+                username = username
             ).toDto()
         )
     }

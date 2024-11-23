@@ -1,5 +1,8 @@
 package br.com.fittogether.core.controller
 
+import br.com.fittogether.core.util.toJson
+import br.com.fittogether.core.util.toObj
+import br.com.fittogether.domain.model.user.User
 import com.russhwolf.settings.Settings
 
 class PreferenceController(
@@ -9,6 +12,7 @@ class PreferenceController(
         const val BASE_URL = "https://fittogether-api.onrender.com"
         const val ONBOARDING_KEY = "ONBOARDING"
         const val EMAIL_REGISTRATION = "EMAIL_REGISTRATION"
+        const val USER = "USER"
     }
 
     fun hasOnboarding() : Boolean {
@@ -27,11 +31,11 @@ class PreferenceController(
         return settings.getString(EMAIL_REGISTRATION, "")
     }
 
-    fun getUser() : String {
-        return settings.getString("token", "")
+    fun getUser() : User {
+        return settings.getString(USER, "").toObj()
     }
 
-    fun setUser(token: String?) {
-        settings.putString("token", "$token")
+    fun setUser(user: User) {
+        settings.putString(USER, user.toJson())
     }
 }

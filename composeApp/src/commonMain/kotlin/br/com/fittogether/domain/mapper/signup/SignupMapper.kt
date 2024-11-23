@@ -28,6 +28,6 @@ fun CreateUser.toDto() : CreateUserRequest {
         confirmPassword = this.confirmPassword,
         cellphone = this.cellphone,
         birthdate = this.birthdate,
-        username = this.email
+        username = this.username
     )
 }

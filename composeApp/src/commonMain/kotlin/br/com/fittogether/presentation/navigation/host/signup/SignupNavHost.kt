@@ -47,7 +47,11 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController) {
         }
 
         composable<SignupRoutes.CreateUser> {
-            CreateUserScreen()
+            CreateUserScreen(
+                navigateToGender = {
+                    navController.navigate(SignupRoutes.Gender)
+                }
+            )
         }
 
         composable<SignupRoutes.Gender> {
