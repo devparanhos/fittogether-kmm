@@ -29,31 +29,47 @@ class CreateUserViewModel(
         when(intent) {
             is CreateUserIntent.UpdateBirthdate -> {
                 _state.update {
-                    it.copy(birthdate = intent.birthdate)
+                    it.copy(
+                        birthdate = intent.birthdate,
+                        fieldErrors = it.fieldErrors?.minus("birth_date")
+                    )
                 }
             }
 
             is CreateUserIntent.UpdateCellphone -> {
                 _state.update {
-                    it.copy(cellphone = intent.cellphone)
+                    it.copy(
+                        cellphone = intent.cellphone,
+                        fieldErrors = it.fieldErrors?.minus("cellphone")
+                    )
                 }
             }
 
             is CreateUserIntent.UpdateConfirmPassword -> {
                 _state.update {
-                    it.copy(confirmPassword = intent.confirmPassword)
+                    it.copy(
+                        confirmPassword = intent.confirmPassword,
+                        fieldErrors = it.fieldErrors?.minus("confirmPassword")
+
+                    )
                 }
             }
 
             is CreateUserIntent.UpdateName -> {
                 _state.update {
-                    it.copy(name = intent.name)
+                    it.copy(
+                        name = intent.name,
+                        fieldErrors = it.fieldErrors?.minus("name")
+                    )
                 }
             }
 
             is CreateUserIntent.UpdatePassword -> {
                 _state.update {
-                    it.copy(password = intent.password)
+                    it.copy(
+                        password = intent.password,
+                        fieldErrors = it.fieldErrors?.minus("password")
+                    )
                 }
             }
 
@@ -113,5 +129,4 @@ class CreateUserViewModel(
             )
         }
     }
-
 }

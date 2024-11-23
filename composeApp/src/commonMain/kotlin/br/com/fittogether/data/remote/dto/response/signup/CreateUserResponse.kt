@@ -8,6 +8,6 @@ data class CreateUserResponse(
     @SerialName("access_token")
     val accessToken: String? = null,
 
-    @SerialName("registration_step")
-    val registrationStep: String? = null
+    @SerialName("user")
+    val user: UserResponse? = null
 )

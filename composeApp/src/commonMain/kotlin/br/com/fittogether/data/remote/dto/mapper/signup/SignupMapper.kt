@@ -26,7 +26,6 @@ fun ValidateCodeResponse.toDomain() : ValidateCode {
 
 fun CreateUserResponse.toDomain() : User {
     return User(
-        accessToken = this.accessToken,
-        registrationStep = RegistrationStep.findByValue(this.registrationStep)
+        accessToken = this.accessToken
     )
 }

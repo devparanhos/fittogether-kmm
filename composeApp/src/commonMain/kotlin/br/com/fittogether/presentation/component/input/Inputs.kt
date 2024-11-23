@@ -26,6 +26,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,6 +90,8 @@ fun DefaultInput(
     placeholder: String,
     keyboardType: KeyboardType,
     imeAction: ImeAction,
+    isDataVisible: Boolean = true,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (text: String) -> Unit,
     onDone: (() -> Unit)? = null,
     trailingData: @Composable (() -> Unit)? = null,
@@ -133,7 +137,8 @@ fun DefaultInput(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = keyboardType,
                     imeAction = imeAction
-                )
+                ),
+                visualTransformation = if (isDataVisible) visualTransformation else PasswordVisualTransformation(),
             )
             messageError?.let {
                 Text(
@@ -171,28 +176,8 @@ fun InputPhone(
             },
             value = phone,
             onValueChange = {
-                if (it.keepOnlyNumbers().length == 11) {
-                    keyboard.clearFocus()
-                }
-
                 if (it.keepOnlyNumbers().length < 12) {
                     onTextChange(it)
-                }
-            },
-            leadingIcon = {
-                Row(
-                    modifier = Modifier.padding(start = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Image(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(Res.drawable.brasil),
-                        contentDescription = null
-                    )
-                    Text(
-                        text = prefix
-                    )
                 }
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(

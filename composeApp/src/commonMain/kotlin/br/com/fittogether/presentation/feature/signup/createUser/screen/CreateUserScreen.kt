@@ -20,9 +20,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
@@ -44,7 +46,6 @@ import br.com.fittogether.presentation.component.button.DefaultButton
 import br.com.fittogether.presentation.component.dialog.ErrorDialog
 import br.com.fittogether.presentation.component.input.DefaultInput
 import br.com.fittogether.presentation.component.input.InputPhone
-import br.com.fittogether.presentation.feature.signup.confirmCode.intent.ConfirmCodeIntent
 import br.com.fittogether.presentation.feature.signup.createUser.intent.CreateUserIntent
 import br.com.fittogether.presentation.feature.signup.createUser.state.CreateUserState
 import br.com.fittogether.presentation.feature.signup.createUser.viewmodel.CreateUserViewModel
@@ -55,7 +56,10 @@ import br.com.fittogether.presentation.ui.color.Grey600
 import br.com.fittogether.presentation.ui.color.Secondary
 
 import fittogether_app.composeapp.generated.resources.Res
+import fittogether_app.composeapp.generated.resources.brasil
 import fittogether_app.composeapp.generated.resources.ic_camera
+import fittogether_app.composeapp.generated.resources.ic_eye
+import fittogether_app.composeapp.generated.resources.ic_eye_off
 import fittogether_app.composeapp.generated.resources.label_politics
 
 import org.jetbrains.compose.resources.painterResource
@@ -82,6 +86,7 @@ fun CreateUserContent(
     action: (CreateUserIntent) -> Unit
 ) {
     val keyboard = LocalFocusManager.current
+    var showPassword by remember { mutableStateOf(false) }
 
     when {
         state.openDialog -> {
@@ -264,7 +269,7 @@ fun CreateUserContent(
                     )
                     DefaultInput(
                         modifier = Modifier.padding(top = 16.dp),
-
+                        isDataVisible = showPassword,
                         text = state.password,
                         placeholder = "Senha de acesso",
                         keyboardType = KeyboardType.Text,
@@ -274,14 +279,26 @@ fun CreateUserContent(
                                 CreateUserIntent.UpdatePassword(password = it)
                             )
                         },
-
+                        trailingData = {
+                            Row(
+                                modifier = Modifier.clickable {
+                                    showPassword = !showPassword
+                                }
+                            ) {
+                                Image(
+                                    painter = painterResource(if (showPassword) Res.drawable.ic_eye else Res.drawable.ic_eye_off),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp).padding(4.dp)
+                                )
+                            }
+                        },
                         messageError = state.fieldErrors?.get("password"),
                         hasError = state.fieldErrors?.get("password") != null
                     )
                     DefaultInput(
                         modifier = Modifier.padding(top = 16.dp),
-
                         text = state.confirmPassword,
+                        isDataVisible = false,
                         placeholder = "Confirmação de senha",
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next,
