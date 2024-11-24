@@ -80,6 +80,6 @@ inline fun <reified D> D.toJson() : String {
     return Json.encodeToString(this)
 }
 
-inline fun <reified D> String.toObj() : D {
+inline fun <reified D> String.toObj() : D? {
     return Json.decodeFromString(this)
 }

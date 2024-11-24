@@ -4,7 +4,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import androidx.navigation.toRoute
 
 import br.com.fittogether.presentation.feature.signup.confirmCode.screen.ConfirmCodeScreen
 import br.com.fittogether.presentation.feature.signup.createUser.screen.CreateUserScreen

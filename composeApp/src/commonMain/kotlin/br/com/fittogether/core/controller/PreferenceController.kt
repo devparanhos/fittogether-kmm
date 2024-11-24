@@ -31,8 +31,12 @@ class PreferenceController(
         return settings.getString(EMAIL_REGISTRATION, "")
     }
 
-    fun getUser() : User {
-        return settings.getString(USER, "").toObj()
+    fun getUser() : User? {
+        return if (settings.getString(USER, defaultValue = "").isBlank()) {
+            null
+        } else {
+            settings.getString(USER, "").toObj()
+        }
     }
 
     fun setUser(user: User) {

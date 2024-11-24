@@ -10,23 +10,24 @@ import br.com.fittogether.presentation.navigation.route.start.StartRoutes
 import org.koin.compose.koinInject
 
 @Composable
-fun AppNavHost(navHostController: NavHostController) {
+fun AppNavHost(navHostController: NavHostController, graph: Any) {
     val preferences = koinInject<PreferenceController>()
-    val startDestination = when {
-        preferences.hasOnboarding() -> {
-            StartRoutes.Start
-        }
-        else -> {
-            StartRoutes.Welcome
-        }
-    }
 
     NavHost(
         navController = navHostController,
-        startDestination = StartRoutes.Graph
+        startDestination = graph
     ) {
-        startNavHost(navController = navHostController, startDestination = startDestination)
+        startNavHost(
+            navController = navHostController,
+            startDestination = if (preferences.hasOnboarding()){
+                StartRoutes.Start
+            } else {
+                StartRoutes.Welcome
+            }
+        )
 
-        signupNavHost(navController = navHostController)
+        signupNavHost(
+            navController = navHostController
+        )
     }
 }
