@@ -42,4 +42,8 @@ class PreferenceController(
     fun setUser(user: User) {
         settings.putString(USER, user.toJson())
     }
+
+    fun clearUser() {
+        settings.remove(USER)
+    }
 }

@@ -6,8 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -41,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import br.com.fittogether.core.util.DateVisualTransformation
 
 import br.com.fittogether.presentation.component.button.DefaultButton
 import br.com.fittogether.presentation.component.dialog.ErrorDialog
@@ -113,7 +117,7 @@ fun CreateUserContent(
     }
 
     Scaffold(
-        modifier = Modifier.statusBarsPadding(),
+        modifier = Modifier.statusBarsPadding().padding(WindowInsets.ime.asPaddingValues()),
         backgroundColor = Background,
         topBar = {
             Row(
@@ -275,11 +279,14 @@ fun CreateUserContent(
                         modifier = Modifier.padding(top = 16.dp),
                         text = state.birthdate,
                         placeholder = "Data de nascimento",
-                        keyboardType = KeyboardType.Text,
+                        keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Next,
+                        visualTransformation = DateVisualTransformation(),
                         onValueChange = {
                             action(
-                                CreateUserIntent.UpdateBirthdate(birthdate = it)
+                                CreateUserIntent.UpdateBirthdate(
+                                    birthdate = it
+                                )
                             )
                         },
                         messageError = state.fieldErrors?.get("birth_date"),
@@ -306,7 +313,7 @@ fun CreateUserContent(
                                 Image(
                                     painter = painterResource(if (showPassword) Res.drawable.ic_eye else Res.drawable.ic_eye_off),
                                     contentDescription = null,
-                                    modifier = Modifier.size(20.dp).padding(4.dp)
+                                    modifier = Modifier.size(26.dp).padding(4.dp)
                                 )
                             }
                         },

@@ -19,25 +19,50 @@ fun NavGraphBuilder.startNavHost(navController: NavHostController, startDestinat
                 navigateOnboarding = {
                     navController.navigate(
                         StartRoutes.Onboarding
-                    )
+                    ) {
+                        popUpTo(StartRoutes.Welcome){ inclusive = true }
+                    }
+                },
+                navigateToLogin = {
+                    navController.navigate(
+                        StartRoutes.Start
+                    ) {
+                        popUpTo(StartRoutes.Welcome){ inclusive = true }
+                    }
                 }
             )
         }
 
         composable<StartRoutes.Onboarding> {
             OnboardingScreen {
-                navController.navigate(StartRoutes.Start)
+                navController.navigate(StartRoutes.Start) {
+                    popUpTo(StartRoutes.Onboarding) { inclusive = true }
+                }
             }
         }
 
         composable<StartRoutes.Start> {
-            StartScreen {
-                navController.navigate(SignupRoutes.Graph)
-            }
+            StartScreen(
+                navigateToLogin = {
+                    navController.navigate(StartRoutes.Login)
+                },
+                navigateToSignup = {
+                    navController.navigate(SignupRoutes.Graph)
+                }
+            )
         }
 
         composable<StartRoutes.Login> {
-            LoginScreen()
+            LoginScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                },
+                navigateToGender = {
+                    navController.navigate(SignupRoutes.Gender) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

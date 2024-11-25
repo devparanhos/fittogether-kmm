@@ -84,13 +84,14 @@ fun OnboardingContent(
                     }
                 }
                 FloatingActionButton(
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(50.dp),
                     backgroundColor = Complementary,
                     content = {
                         Image(
                             painter = painterResource(Res.drawable.ic_chevron_right),
                             contentDescription = null,
-                            colorFilter = ColorFilter.tint(Color.White)
+                            colorFilter = ColorFilter.tint(Color.White),
+                            modifier = Modifier.size(16.dp)
                         )
                     },
                     onClick = {
@@ -138,14 +139,14 @@ fun OnboardingContent(
                         Text(
                             text = currentOnboarding.title,
                             color = Secondary,
-                            fontSize = 18.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             modifier = Modifier.padding(top = 16.dp),
                             text = currentOnboarding.subtitle,
                             color = Color.White,
-                            fontSize = 14.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.Center
                         )

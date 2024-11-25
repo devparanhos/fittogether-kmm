@@ -1,7 +1,9 @@
 package br.com.fittogether.di.modules.viewmodel
 
+import br.com.fittogether.presentation.feature.login.viewmodel.LoginViewModel
 import br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel.ConfirmCodeViewModel
 import br.com.fittogether.presentation.feature.signup.createUser.viewmodel.CreateUserViewModel
+import br.com.fittogether.presentation.feature.signup.gender.viewmodel.GenderViewModel
 import br.com.fittogether.presentation.feature.signup.verifyEmail.viewmodel.VerifyEmailViewModel
 import br.com.fittogether.presentation.feature.start.viewmodel.StartViewModel
 
@@ -34,6 +36,19 @@ val viewModelModule = module {
         CreateUserViewModel(
             createUserUseCase = get(),
             preferences = get()
+        )
+    }
+
+    viewModel {
+        LoginViewModel(
+            preferenceController = get(),
+            loginUseCase = get()
+        )
+    }
+
+    viewModel {
+        GenderViewModel(
+            preferenceController = get()
         )
     }
 }

@@ -12,9 +12,9 @@ import br.com.fittogether.presentation.feature.signup.verifyEmail.screen.VerifyE
 import br.com.fittogether.presentation.navigation.route.signup.SignupRoutes
 import br.com.fittogether.presentation.navigation.route.start.StartRoutes
 
-fun NavGraphBuilder.signupNavHost(navController: NavHostController) {
+fun NavGraphBuilder.signupNavHost(navController: NavHostController, startDestination: SignupRoutes) {
     navigation<SignupRoutes.Graph>(
-        startDestination = SignupRoutes.VerifyEmail
+        startDestination = startDestination
     ) {
         composable<SignupRoutes.VerifyEmail> {
             VerifyEmailScreen(
@@ -54,7 +54,11 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController) {
         }
 
         composable<SignupRoutes.Gender> {
-            GenderScreen()
+            GenderScreen(
+                navigateToStart = {
+                    navController.navigate(StartRoutes.Start)
+                }
+            )
         }
     }
 }

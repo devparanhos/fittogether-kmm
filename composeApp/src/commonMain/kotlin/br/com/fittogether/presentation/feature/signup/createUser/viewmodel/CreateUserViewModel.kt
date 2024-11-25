@@ -2,6 +2,7 @@ package br.com.fittogether.presentation.feature.signup.createUser.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import br.com.fittogether.core.controller.PreferenceController
+import br.com.fittogether.core.util.formatDateWithSlashes
 import br.com.fittogether.domain.usecase.signup.CreateUserUseCase
 import br.com.fittogether.presentation.feature.signup.createUser.intent.CreateUserIntent
 import br.com.fittogether.presentation.feature.signup.createUser.state.CreateUserState
@@ -107,7 +108,7 @@ class CreateUserViewModel(
                         name = state.value.name,
                         password = state.value.password,
                         cellphone = state.value.cellphone,
-                        birthdate = state.value.birthdate,
+                        birthdate = formatDateWithSlashes(state.value.birthdate),
                         confirmPassword = state.value.confirmPassword,
                         username = state.value.username
                     )

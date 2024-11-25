@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -41,16 +40,19 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WelcomeScreen(
-    navigateOnboarding: () -> Unit
+    navigateOnboarding: () -> Unit,
+    navigateToLogin: () -> Unit
 ) {
     WelcomeContent(
-        navigateOnboarding = navigateOnboarding
+        navigateOnboarding = navigateOnboarding,
+        navigateToLogin = navigateToLogin
     )
 }
 
 @Composable
 fun WelcomeContent(
-    navigateOnboarding: () -> Unit
+    navigateOnboarding: () -> Unit,
+    navigateToLogin: () -> Unit
 ) {
     Scaffold {
         Box(
@@ -82,19 +84,18 @@ fun WelcomeContent(
                     modifier = Modifier.padding(bottom = 16.dp),
                     text = stringResource(Res.string.title_welcome),
                     color = Secondary,
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier.padding(bottom = 24.dp),
                     text = stringResource(Res.string.subtitle_welcome),
                     color = Color.White,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
                     textAlign = TextAlign.Center
                 )
                 DefaultButton(
-                    modifier = Modifier.height(46.dp),
                     label = stringResource(Res.string.button_begin),
                     onClick = {
                         navigateOnboarding()
@@ -102,7 +103,7 @@ fun WelcomeContent(
                 )
                 Row(
                     modifier = Modifier.padding(top = 16.dp).clickable {
-
+                        navigateToLogin()
                     }
                 ) {
                     Text(

@@ -20,16 +20,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import br.com.fittogether.presentation.component.button.DefaultButton
 import br.com.fittogether.presentation.ui.color.Background
 import br.com.fittogether.presentation.ui.color.Error
 import br.com.fittogether.presentation.ui.color.Grey300
 import br.com.fittogether.presentation.ui.color.Grey600
+
 import fittogether_app.composeapp.generated.resources.Res
 import fittogether_app.composeapp.generated.resources.ic_email_dialog
 import fittogether_app.composeapp.generated.resources.ic_error_dialog
+
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -69,19 +73,18 @@ fun ErrorDialog(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Text(
-                        text = "Algo deu errado",
+                        text = "Algo deu errado ${ internalCode?.let { ": $it" }}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
+                        fontSize = 18.sp,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
                     )
-                    internalCode?.let {
-                        Text(
-                            text = ": $internalCode",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
-                        )
-                    }
                 }
 
                 Text(

@@ -38,7 +38,7 @@ fun DefaultButton(
 ) {
     Button(
         enabled = enabled,
-        modifier = modifier.fillMaxWidth().height(58.dp),
+        modifier = modifier.fillMaxWidth().height(46.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor

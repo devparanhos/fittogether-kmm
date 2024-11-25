@@ -51,6 +51,7 @@ import fittogether_app.composeapp.generated.resources.ic_arrow_back
 import fittogether_app.composeapp.generated.resources.validate_code_code_not_recevied
 import fittogether_app.composeapp.generated.resources.validate_code_code_sent
 import fittogether_app.composeapp.generated.resources.validate_code_resend_code
+import fittogether_app.composeapp.generated.resources.validate_code_verify_code
 
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -206,7 +207,7 @@ fun ConfirmCodeContent(
                 modifier = Modifier.height(46.dp),
                 enabled = !state.isVerifyingCode,
                 isRequesting = state.isVerifyingCode,
-                label = stringResource(Res.string.validate_code_resend_code),
+                label = stringResource(Res.string.validate_code_verify_code),
                 backgroundColor = Secondary,
                 borderColor = Secondary,
                 textColor = White,

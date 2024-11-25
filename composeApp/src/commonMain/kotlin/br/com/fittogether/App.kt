@@ -9,6 +9,7 @@ import br.com.fittogether.presentation.navigation.route.start.StartRoutes
 import br.com.fittogether.presentation.ui.theme.FitTogetherTheme
 import org.koin.compose.koinInject
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 @Composable
 fun App() {
     FitTogetherTheme {

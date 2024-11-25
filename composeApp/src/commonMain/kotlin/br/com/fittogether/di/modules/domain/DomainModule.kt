@@ -1,5 +1,6 @@
 package br.com.fittogether.di.modules.domain
 
+import br.com.fittogether.domain.usecase.login.LoginUseCase
 import br.com.fittogether.domain.usecase.signup.CreateUserUseCase
 import br.com.fittogether.domain.usecase.signup.ValidateCodeUseCase
 import br.com.fittogether.domain.usecase.signup.VerifyEmailUseCase
@@ -20,6 +21,12 @@ val domainModule = module {
 
     factory {
         CreateUserUseCase(
+            repository = get()
+        )
+    }
+
+    factory {
+        LoginUseCase(
             repository = get()
         )
     }

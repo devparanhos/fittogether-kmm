@@ -2,7 +2,7 @@
 <resources>
     <string name="title_welcome">Bem-vindo a Fit Together</string>
 
-    <string name="subtitle_welcome">Encontre um parceiro para se exercitar porque treinar Together é muito melhor que sozinho</string>
+    <string name="subtitle_welcome">Encontre um parceiro para se exercitar porque treinar junto é melhor que sozinho</string>
 
     <string name="button_begin">Começar</string>
     <string name="button_enter_with_email">Entrar com e-mail</string>
@@ -38,4 +38,18 @@
     <string name="create_user_account_creation">Cadastro de conta</string>
     <string name="create_user_input_cellphone">Celular</string>
     <string name="create_user_cellphone_prefix">+55 | </string>
+
+    <!-- START SCREEN -->
+    <string name="start_label_meet_fittogether">Quer conhecer a Fit Together</string>
+    <string name="start_label_see_video">Confira o video!</string>
+
+    <!-- LOGIN SCREEN -->
+    <string name="login_title">Faça seu login</string>
+    <string name="login_subtitle">Insira suas credenciais de acesso abaixo</string>
+    <string name="login_input_email">E-mail</string>
+    <string name="login_input_password">Senha</string>
+    <string name="login_button_enter">Entrar</string>
+    <string name="login_label_forgot_password">Esqueci minha senha</string>
+    <string name="login_label_enter_with">ou entre com</string>
+
 </resources>

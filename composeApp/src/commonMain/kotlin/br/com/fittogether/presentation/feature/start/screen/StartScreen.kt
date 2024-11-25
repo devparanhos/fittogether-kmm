@@ -2,16 +2,17 @@ package br.com.fittogether.presentation.feature.start.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 import br.com.fittogether.presentation.component.button.DefaultButton
 import br.com.fittogether.presentation.feature.start.viewmodel.StartViewModel
@@ -41,9 +43,10 @@ import fittogether_app.composeapp.generated.resources.ic_email
 import fittogether_app.composeapp.generated.resources.ic_google
 import fittogether_app.composeapp.generated.resources.label_if_already_have_account
 import fittogether_app.composeapp.generated.resources.label_or_create_account
-import fittogether_app.composeapp.generated.resources.label_politics
 import fittogether_app.composeapp.generated.resources.logo
 import fittogether_app.composeapp.generated.resources.pattern_background
+import fittogether_app.composeapp.generated.resources.start_label_meet_fittogether
+import fittogether_app.composeapp.generated.resources.start_label_see_video
 
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -54,16 +57,19 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 fun StartScreen(
     viewModel: StartViewModel = koinViewModel(),
+    navigateToLogin: () -> Unit,
     navigateToSignup: () -> Unit
 ) {
     StartContent(
-        navigateToSignup = navigateToSignup
+        navigateToSignup = navigateToSignup,
+        navigateToLogin = navigateToLogin
     )
 }
 
 @Composable
 fun StartContent(
-    navigateToSignup: () -> Unit
+    navigateToSignup: () -> Unit,
+    navigateToLogin: () -> Unit
 ) {
     Scaffold {
         Box(
@@ -85,12 +91,12 @@ fun StartContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    modifier = Modifier.weight(0.4f).fillMaxWidth(0.7f),
+                    modifier = Modifier.fillMaxWidth(0.7f).weight(1.0f),
                     painter = painterResource(Res.drawable.logo),
                     contentDescription = null
                 )
                 Card(
-                    modifier = Modifier.fillMaxWidth().weight(0.6f).fillMaxHeight(),
+                    modifier = Modifier.fillMaxWidth(),
                     backgroundColor = Color.White,
                     shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                 ) {
@@ -104,18 +110,16 @@ fun StartContent(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         DefaultButton(
-                            modifier = Modifier.height(46.dp),
                             label = stringResource(Res.string.button_enter_with_email),
                             backgroundColor = Primary,
                             borderColor = Primary,
                             icon = painterResource(Res.drawable.ic_email),
                             onClick = {
-
+                                navigateToLogin()
                             }
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         DefaultButton(
-                            modifier = Modifier.height(46.dp),
                             label = stringResource(Res.string.button_enter_with_google),
                             backgroundColor = Color.White,
                             borderColor = Grey600,
@@ -127,7 +131,6 @@ fun StartContent(
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         DefaultButton(
-                            modifier = Modifier.height(46.dp),
                             label = stringResource(Res.string.button_enter_with_apple),
                             backgroundColor = Color.White,
                             borderColor = Grey600,
@@ -154,9 +157,8 @@ fun StartContent(
                                 modifier = Modifier.height(2.dp).background(Grey400).weight(0.3f)
                             )
                         }
-                        Spacer(modifier = Modifier.height(32.dp))
+                        Spacer(modifier = Modifier.height(24.dp))
                         DefaultButton(
-                            modifier = Modifier.height(46.dp),
                             label = stringResource(Res.string.button_create),
                             backgroundColor = Secondary,
                             borderColor = Secondary,
@@ -165,6 +167,27 @@ fun StartContent(
                                 navigateToSignup()
                             }
                         )
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp).clickable {
+
+                            },
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = stringResource(Res.string.start_label_meet_fittogether),
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp,
+                                color = Grey400
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = stringResource(Res.string.start_label_see_video),
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp,
+                                color = Secondary
+                            )
+                        }
                     }
                 }
             }
