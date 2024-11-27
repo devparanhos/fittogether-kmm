@@ -2,6 +2,8 @@ package br.com.fittogether.di.modules.domain
 
 import br.com.fittogether.domain.usecase.login.LoginUseCase
 import br.com.fittogether.domain.usecase.signup.CreateUserUseCase
+import br.com.fittogether.domain.usecase.signup.GetGenderUseCase
+import br.com.fittogether.domain.usecase.signup.SetGenderUseCase
 import br.com.fittogether.domain.usecase.signup.ValidateCodeUseCase
 import br.com.fittogether.domain.usecase.signup.VerifyEmailUseCase
 import org.koin.dsl.module
@@ -29,5 +31,13 @@ val domainModule = module {
         LoginUseCase(
             repository = get()
         )
+    }
+
+    factory {
+        GetGenderUseCase(repository = get())
+    }
+
+    factory {
+        SetGenderUseCase(repository = get())
     }
 }

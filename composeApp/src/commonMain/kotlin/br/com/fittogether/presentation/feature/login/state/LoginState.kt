@@ -7,6 +7,7 @@ data class LoginState(
     val email: String = "",
     val password: String = "",
     val navigateToGender: Boolean = false,
+    val navigateToGoals: Boolean = false,
     val isRequesting: Boolean = false,
     val error: ApiError? = null,
     val openDialog: Boolean = false,

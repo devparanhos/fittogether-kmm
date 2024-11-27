@@ -52,4 +52,16 @@
     <string name="login_label_forgot_password">Esqueci minha senha</string>
     <string name="login_label_enter_with">ou entre com</string>
 
+    <!-- CREATE USER SCREEN -->
+    <string name="create_user_title">Cadastro de conta</string>
+    <string name="create_user_subtitle">Queremos saber mais sobre você</string>
+    <string name="create_user_placeholder_name">Nome completo</string>
+    <string name="create_user_placeholder_email">E-mail</string>
+    <string name="create_user_label_validated">validado</string>
+    <string name="create_user_placeholder_username">Usuário</string>
+    <string name="create_user_placeholder_cellphone">Celular</string>
+    <string name="create_user_placeholder_birthdate">Data de nascimento</string>
+    <string name="create_user_placeholder_password">Senha de acesso</string>
+    <string name="create_user_placeholder_confirm_password">Confirmação de senha</string>
+    <string name="create_user_button_save_data">Salvar dados pessoais</string>
 </resources>

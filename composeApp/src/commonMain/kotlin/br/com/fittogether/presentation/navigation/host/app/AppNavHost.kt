@@ -38,6 +38,10 @@ fun AppNavHost(navHostController: NavHostController, graph: Any) {
                         SignupRoutes.Gender
                     }
 
+                    RegistrationStep.GOALS -> {
+                        SignupRoutes.Goal
+                    }
+
                     else -> {
                         SignupRoutes.VerifyEmail
                     }

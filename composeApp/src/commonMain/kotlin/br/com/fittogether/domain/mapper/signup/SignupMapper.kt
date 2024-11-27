@@ -1,8 +1,10 @@
 package br.com.fittogether.domain.mapper.signup
 
 import br.com.fittogether.data.remote.dto.request.signup.CreateUserRequest
+import br.com.fittogether.data.remote.dto.request.signup.SetGenderRequest
 import br.com.fittogether.data.remote.dto.request.signup.ValidateCodeRequest
 import br.com.fittogether.data.remote.dto.request.signup.VerifyEmailRequest
+import br.com.fittogether.domain.model.gender.Gender
 import br.com.fittogether.domain.model.signup.CreateUser
 import br.com.fittogether.domain.model.signup.ValidateCode
 import br.com.fittogether.domain.model.signup.VerifyEmail
@@ -29,5 +31,11 @@ fun CreateUser.toDto() : CreateUserRequest {
         cellphone = this.cellphone,
         birthdate = this.birthdate,
         username = this.username
+    )
+}
+
+fun Gender.toDto() : SetGenderRequest {
+    return SetGenderRequest(
+        genderId = this.id
     )
 }

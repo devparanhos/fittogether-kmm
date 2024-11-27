@@ -1,5 +1,6 @@
 package br.com.fittogether.di.modules.viewmodel
 
+import br.com.fittogether.data.remote.client.HttpClientManager
 import br.com.fittogether.presentation.feature.login.viewmodel.LoginViewModel
 import br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel.ConfirmCodeViewModel
 import br.com.fittogether.presentation.feature.signup.createUser.viewmodel.CreateUserViewModel
@@ -35,20 +36,24 @@ val viewModelModule = module {
     viewModel {
         CreateUserViewModel(
             createUserUseCase = get(),
-            preferences = get()
+            preferences = get(),
+            refreshHttpClient = get<HttpClientManager>()::refreshHttpClient
         )
     }
 
     viewModel {
         LoginViewModel(
             preferenceController = get(),
-            loginUseCase = get()
+            loginUseCase = get(),
+            refreshHttpClient = get<HttpClientManager>()::refreshHttpClient
         )
     }
 
     viewModel {
         GenderViewModel(
-            preferenceController = get()
+            preferenceController = get(),
+            getGenderUseCase = get(),
+            setGenderUseCase = get()
         )
     }
 }

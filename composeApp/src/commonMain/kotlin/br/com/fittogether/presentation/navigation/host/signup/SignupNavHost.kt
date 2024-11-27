@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import br.com.fittogether.presentation.feature.registration.goal.screen.GoalScreen
 
 import br.com.fittogether.presentation.feature.signup.confirmCode.screen.ConfirmCodeScreen
 import br.com.fittogether.presentation.feature.signup.createUser.screen.CreateUserScreen
@@ -40,7 +41,9 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController, startDestina
 
                 },
                 navigateToCreateUser = {
-                    navController.navigate(SignupRoutes.CreateUser)
+                    navController.navigate(SignupRoutes.CreateUser) {
+                        popUpTo(SignupRoutes.ConfirmCode){ inclusive = true }
+                    }
                 }
             )
         }
@@ -48,8 +51,13 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController, startDestina
         composable<SignupRoutes.CreateUser> {
             CreateUserScreen(
                 navigateToGender = {
-                    navController.navigate(SignupRoutes.Gender)
-                }
+                    navController.navigate(SignupRoutes.Gender) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                 navigateBack = {
+                     navController.popBackStack()
+                 }
             )
         }
 
@@ -57,8 +65,15 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController, startDestina
             GenderScreen(
                 navigateToStart = {
                     navController.navigate(StartRoutes.Start)
+                },
+                navigateToGoals = {
+                    navController.navigate(SignupRoutes.Goal)
                 }
             )
+        }
+
+        composable<SignupRoutes.Goal> {
+            GoalScreen()
         }
     }
 }

@@ -16,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
-    private val preferenceController: PreferenceController
+    private val preferenceController: PreferenceController,
+    private val refreshHttpClient: () -> Unit
 ) : BaseViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
@@ -71,12 +72,22 @@ class LoginViewModel(
                 },
                 onSuccess = { response ->
                     preferenceController.setUser(user = response)
+                    refreshHttpClient()
 
                     when(response.registrationStep) {
                         RegistrationStep.GENDER -> {
                             _state.update {
                                 it.copy(
                                     navigateToGender = true,
+                                    isRequesting = false
+                                )
+                            }
+                        }
+
+                        RegistrationStep.GOALS -> {
+                            _state.update {
+                                it.copy(
+                                    navigateToGoals = true,
                                     isRequesting = false
                                 )
                             }

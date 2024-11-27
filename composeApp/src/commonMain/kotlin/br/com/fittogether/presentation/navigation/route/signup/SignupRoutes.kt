@@ -17,4 +17,7 @@ sealed class SignupRoutes {
 
     @Serializable
     data object Gender : SignupRoutes()
+
+    @Serializable
+    data object Goal : SignupRoutes()
 }

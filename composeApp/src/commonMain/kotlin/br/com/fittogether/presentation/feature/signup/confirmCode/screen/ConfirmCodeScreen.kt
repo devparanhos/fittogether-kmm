@@ -1,7 +1,5 @@
 package br.com.fittogether.presentation.feature.signup.confirmCode.screen
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -36,6 +33,7 @@ import br.com.fittogether.presentation.component.button.CountButton
 import br.com.fittogether.presentation.component.button.DefaultButton
 import br.com.fittogether.presentation.component.dialog.ErrorDialog
 import br.com.fittogether.presentation.component.input.InputCode
+import br.com.fittogether.presentation.component.topbar.DefaultTopbar
 import br.com.fittogether.presentation.feature.signup.confirmCode.intent.ConfirmCodeIntent
 import br.com.fittogether.presentation.feature.signup.confirmCode.state.ConfirmCodeState
 import br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel.ConfirmCodeViewModel
@@ -47,13 +45,11 @@ import br.com.fittogether.presentation.ui.color.Secondary
 import fittogether_app.composeapp.generated.resources.Res
 import fittogether_app.composeapp.generated.resources.confirm_code_subtitle
 import fittogether_app.composeapp.generated.resources.confirm_code_title
-import fittogether_app.composeapp.generated.resources.ic_arrow_back
 import fittogether_app.composeapp.generated.resources.validate_code_code_not_recevied
 import fittogether_app.composeapp.generated.resources.validate_code_code_sent
 import fittogether_app.composeapp.generated.resources.validate_code_resend_code
 import fittogether_app.composeapp.generated.resources.validate_code_verify_code
 
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -115,19 +111,8 @@ fun ConfirmCodeContent(
         modifier = Modifier.statusBarsPadding(),
         backgroundColor = White,
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        navigateBack()
-                    }
-                    .padding(24.dp)
-            ) {
-                Image(
-                    modifier = Modifier.size(18.dp),
-                    painter = painterResource(Res.drawable.ic_arrow_back),
-                    contentDescription = null
-                )
+            DefaultTopbar {
+                navigateBack()
             }
         },
         bottomBar = {

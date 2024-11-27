@@ -6,6 +6,7 @@ import br.com.fittogether.core.enums.UserStatus
 import br.com.fittogether.data.remote.dto.response.signup.CreateUserResponse
 import br.com.fittogether.data.remote.dto.response.signup.ExercisesResponse
 import br.com.fittogether.data.remote.dto.response.signup.GenderResponse
+import br.com.fittogether.data.remote.dto.response.signup.GetGendersResponse
 import br.com.fittogether.data.remote.dto.response.signup.GoalResponse
 import br.com.fittogether.data.remote.dto.response.signup.PreferenceResponse
 import br.com.fittogether.data.remote.dto.response.signup.ValidateCodeResponse
@@ -14,6 +15,7 @@ import br.com.fittogether.domain.model.exercise.Exercise
 import br.com.fittogether.domain.model.gender.Gender
 import br.com.fittogether.domain.model.goal.Goal
 import br.com.fittogether.domain.model.preference.Preference
+import br.com.fittogether.domain.model.signup.GetGender
 import br.com.fittogether.domain.model.user.User
 import br.com.fittogether.domain.model.signup.ValidateCode
 import br.com.fittogether.domain.model.signup.VerifyEmail
@@ -80,5 +82,12 @@ fun GenderResponse.toDomain() : Gender {
         id = this.id,
         name = this.name,
         icon = this.icon
+    )
+}
+
+fun GetGendersResponse.toDomain() : GetGender {
+    return GetGender(
+        title = this.title,
+        genders = this.genders?.map { it.toDomain() }
     )
 }

@@ -15,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class CreateUserViewModel(
     private val createUserUseCase: CreateUserUseCase,
-    private val preferences: PreferenceController
+    private val preferences: PreferenceController,
+    private val refreshHttpClient: () -> Unit
 ) : BaseViewModel() {
     private val _state = MutableStateFlow(CreateUserState())
     val state = _state.asStateFlow()
@@ -68,7 +69,8 @@ class CreateUserViewModel(
             is CreateUserIntent.UpdateUsername -> {
                 _state.update {
                     it.copy(
-                        username = intent.username
+                        username = intent.username,
+                        fieldErrors = it.fieldErrors?.minus("username")
                     )
                 }
             }
@@ -115,6 +117,7 @@ class CreateUserViewModel(
                 },
                 onSuccess = { response ->
                     preferences.setUser(user = response)
+                    refreshHttpClient()
 
                     _state.update {
                         it.copy(

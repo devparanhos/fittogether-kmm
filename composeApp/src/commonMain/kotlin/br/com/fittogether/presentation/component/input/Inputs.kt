@@ -1,9 +1,13 @@
 package br.com.fittogether.presentation.component.input
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -37,10 +43,15 @@ import br.com.fittogether.core.util.phoneFilter
 import br.com.fittogether.presentation.ui.color.Error
 import br.com.fittogether.presentation.ui.color.Grey300
 import br.com.fittogether.presentation.ui.color.Grey400
+import br.com.fittogether.presentation.ui.color.Grey500
+import br.com.fittogether.presentation.ui.color.Grey600
 import br.com.fittogether.presentation.ui.color.Grey700
+import br.com.fittogether.presentation.ui.color.Primary
+import coil3.compose.AsyncImage
 
 import fittogether_app.composeapp.generated.resources.Res
 import fittogether_app.composeapp.generated.resources.brasil
+import fittogether_app.composeapp.generated.resources.ic_no_icon
 
 import org.jetbrains.compose.resources.painterResource
 
@@ -153,59 +164,36 @@ fun DefaultInput(
 }
 
 @Composable
-fun InputPhone(
-    modifier: Modifier = Modifier,
-    label: String,
-    prefix: String,
-    phone: String,
-    hasError: Boolean = false,
-    messageError: String? = null,
-    onTextChange: (phone: String) -> Unit,
-    onDone: (() -> Unit)? = null
+fun InputSelection(
+    selected: Boolean,
+    icon: String?,
+    label: String?,
+    onSelection: () -> Unit
 ) {
-    val keyboard = LocalFocusManager.current
-
-    Column {
-        OutlinedTextField(
-            modifier = modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(10.dp),
-            label = {
-                Text(
-                    text = label
-                )
-            },
-            value = phone,
-            onValueChange = {
-                if (it.keepOnlyNumbers().length < 12) {
-                    onTextChange(it)
-                }
-            },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                backgroundColor = Color.White ,
-                unfocusedBorderColor = if (hasError) Error else Grey400,
-                unfocusedLabelColor = if (hasError) Error else Grey400,
-                focusedLabelColor = if (hasError) Error else Grey700,
-                focusedBorderColor = if (hasError) Error else Grey700,
-                cursorColor = Grey700
-            ),
-            visualTransformation = { text -> phoneFilter(text) },
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboard.clearFocus()
-                    onDone?.invoke()
-                }
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number
-            )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(1.dp, if (selected) Primary else Grey600, RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp))
+            .background(if (selected) Primary else Color.White)
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .clickable {
+                onSelection()
+            }
+    ){
+        AsyncImage(
+            model = icon,
+            error = painterResource(Res.drawable.ic_no_icon),
+            placeholder = painterResource(Res.drawable.ic_no_icon),
+            contentDescription = null,
+            modifier = Modifier.size(20.dp),
+            colorFilter = ColorFilter.tint(if (selected) Color.White else Grey600)
         )
-        messageError?.let {
-            Text(
-                text = it,
-                color = Error,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(start = 8.dp)
-            )
-        }
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = "$label",
+            fontSize = 14.sp,
+            color = if (selected) Color.White else Grey600
+        )
     }
 }

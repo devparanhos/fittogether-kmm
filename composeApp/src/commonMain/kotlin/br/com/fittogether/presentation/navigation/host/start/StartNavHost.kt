@@ -47,7 +47,7 @@ fun NavGraphBuilder.startNavHost(navController: NavHostController, startDestinat
                     navController.navigate(StartRoutes.Login)
                 },
                 navigateToSignup = {
-                    navController.navigate(SignupRoutes.Graph)
+                    navController.navigate(SignupRoutes.VerifyEmail)
                 }
             )
         }
@@ -59,6 +59,11 @@ fun NavGraphBuilder.startNavHost(navController: NavHostController, startDestinat
                 },
                 navigateToGender = {
                     navController.navigate(SignupRoutes.Gender) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                navigateToGoals = {
+                    navController.navigate(SignupRoutes.Goal) {
                         popUpTo(0) { inclusive = true }
                     }
                 }
