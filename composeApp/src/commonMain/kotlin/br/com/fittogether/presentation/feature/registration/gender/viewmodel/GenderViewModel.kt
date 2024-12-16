@@ -1,12 +1,12 @@
-package br.com.fittogether.presentation.feature.signup.gender.viewmodel
+package br.com.fittogether.presentation.feature.registration.gender.viewmodel
 
 import androidx.lifecycle.viewModelScope
 
 import br.com.fittogether.core.controller.PreferenceController
 import br.com.fittogether.domain.usecase.signup.GetGenderUseCase
 import br.com.fittogether.domain.usecase.signup.SetGenderUseCase
-import br.com.fittogether.presentation.feature.signup.gender.intent.GenderIntent
-import br.com.fittogether.presentation.feature.signup.gender.state.GenderState
+import br.com.fittogether.presentation.feature.registration.gender.intent.GenderIntent
+import br.com.fittogether.presentation.feature.registration.gender.state.GenderState
 import br.com.fittogether.presentation.viewmodel.BaseViewModel
 
 import kotlinx.coroutines.flow.MutableStateFlow

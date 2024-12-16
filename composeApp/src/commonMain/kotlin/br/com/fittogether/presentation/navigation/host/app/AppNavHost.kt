@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 
 import br.com.fittogether.core.controller.PreferenceController
 import br.com.fittogether.core.enums.RegistrationStep
+import br.com.fittogether.presentation.navigation.host.registration.registrationNavHost
 import br.com.fittogether.presentation.navigation.host.signup.signupNavHost
 import br.com.fittogether.presentation.navigation.host.start.startNavHost
+import br.com.fittogether.presentation.navigation.route.registration.RegistrationRoutes
 import br.com.fittogether.presentation.navigation.route.signup.SignupRoutes
 import br.com.fittogether.presentation.navigation.route.start.StartRoutes
 
@@ -32,24 +34,20 @@ fun AppNavHost(navHostController: NavHostController, graph: Any) {
 
         signupNavHost(
             navController = navHostController,
-            startDestination = preferences.getUser()?.let { user ->
-                when(user.registrationStep) {
-                    RegistrationStep.GENDER -> {
-                        SignupRoutes.Gender
-                    }
+            startDestination = SignupRoutes.VerifyEmail
+        )
 
-                    RegistrationStep.GOALS -> {
-                        SignupRoutes.Goal
-                    }
-
-                    else -> {
-                        SignupRoutes.VerifyEmail
-                    }
+        registrationNavHost(
+            navHostController = navHostController,
+            startDestination = preferences.getUser()?.let {
+                when(it.registrationStep) {
+                    RegistrationStep.GENDER -> RegistrationRoutes.Gender
+                    RegistrationStep.GOALS -> RegistrationRoutes.Goal
+                    else -> RegistrationRoutes.Gender
                 }
             } ?: run {
-                SignupRoutes.VerifyEmail
+                RegistrationRoutes.Gender
             }
-
         )
     }
 }

@@ -4,11 +4,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import br.com.fittogether.presentation.feature.login.screen.LoginScreen
 
+import br.com.fittogether.presentation.feature.login.screen.LoginScreen
 import br.com.fittogether.presentation.feature.onboarding.screen.OnboardingScreen
 import br.com.fittogether.presentation.feature.start.screen.StartScreen
 import br.com.fittogether.presentation.feature.welcome.screen.WelcomeScreen
+import br.com.fittogether.presentation.navigation.route.registration.RegistrationRoutes
 import br.com.fittogether.presentation.navigation.route.signup.SignupRoutes
 import br.com.fittogether.presentation.navigation.route.start.StartRoutes
 
@@ -58,12 +59,12 @@ fun NavGraphBuilder.startNavHost(navController: NavHostController, startDestinat
                     navController.popBackStack()
                 },
                 navigateToGender = {
-                    navController.navigate(SignupRoutes.Gender) {
+                    navController.navigate(RegistrationRoutes.Gender) {
                         popUpTo(0) { inclusive = true }
                     }
                 },
                 navigateToGoals = {
-                    navController.navigate(SignupRoutes.Goal) {
+                    navController.navigate(RegistrationRoutes.Goal) {
                         popUpTo(0) { inclusive = true }
                     }
                 }

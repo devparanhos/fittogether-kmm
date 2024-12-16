@@ -1,4 +1,4 @@
-package br.com.fittogether.presentation.feature.signup.gender.intent
+package br.com.fittogether.presentation.feature.registration.gender.intent
 
 import br.com.fittogether.domain.model.gender.Gender
 

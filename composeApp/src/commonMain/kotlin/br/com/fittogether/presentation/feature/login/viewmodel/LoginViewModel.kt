@@ -71,7 +71,9 @@ class LoginViewModel(
                     )
                 },
                 onSuccess = { response ->
+                    preferenceController.setToken(token = response.accessToken)
                     preferenceController.setUser(user = response)
+
                     refreshHttpClient()
 
                     when(response.registrationStep) {

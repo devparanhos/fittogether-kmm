@@ -41,4 +41,8 @@ class SignupAPI(
             setBody(request)
         }
     }
+
+    suspend fun getGoals() : HttpResponse {
+        return httpClientManager.getHttpClient().get("registration/screen/goals")
+    }
 }

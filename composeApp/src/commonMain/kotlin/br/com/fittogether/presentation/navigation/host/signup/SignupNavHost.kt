@@ -8,8 +8,9 @@ import br.com.fittogether.presentation.feature.registration.goal.screen.GoalScre
 
 import br.com.fittogether.presentation.feature.signup.confirmCode.screen.ConfirmCodeScreen
 import br.com.fittogether.presentation.feature.signup.createUser.screen.CreateUserScreen
-import br.com.fittogether.presentation.feature.signup.gender.screen.GenderScreen
+import br.com.fittogether.presentation.feature.registration.gender.screen.GenderScreen
 import br.com.fittogether.presentation.feature.signup.verifyEmail.screen.VerifyEmailScreen
+import br.com.fittogether.presentation.navigation.route.registration.RegistrationRoutes
 import br.com.fittogether.presentation.navigation.route.signup.SignupRoutes
 import br.com.fittogether.presentation.navigation.route.start.StartRoutes
 
@@ -51,7 +52,7 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController, startDestina
         composable<SignupRoutes.CreateUser> {
             CreateUserScreen(
                 navigateToGender = {
-                    navController.navigate(SignupRoutes.Gender) {
+                    navController.navigate(RegistrationRoutes.Gender) {
                         popUpTo(0) { inclusive = true }
                     }
                 },
@@ -59,21 +60,6 @@ fun NavGraphBuilder.signupNavHost(navController: NavHostController, startDestina
                      navController.popBackStack()
                  }
             )
-        }
-
-        composable<SignupRoutes.Gender> {
-            GenderScreen(
-                navigateToStart = {
-                    navController.navigate(StartRoutes.Start)
-                },
-                navigateToGoals = {
-                    navController.navigate(SignupRoutes.Goal)
-                }
-            )
-        }
-
-        composable<SignupRoutes.Goal> {
-            GoalScreen()
         }
     }
 }

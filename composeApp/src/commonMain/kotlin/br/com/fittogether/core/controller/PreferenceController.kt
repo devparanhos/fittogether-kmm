@@ -13,6 +13,7 @@ class PreferenceController(
         const val ONBOARDING_KEY = "ONBOARDING"
         const val EMAIL_REGISTRATION = "EMAIL_REGISTRATION"
         const val USER = "USER"
+        const val ACCESS_TOKEN = "ACCESS_TOKEN"
     }
 
     fun hasOnboarding() : Boolean {
@@ -31,6 +32,15 @@ class PreferenceController(
         return settings.getString(EMAIL_REGISTRATION, "")
     }
 
+    fun setToken(token: String?) {
+        settings.putString(ACCESS_TOKEN, token ?: "")
+    }
+
+    fun getToken() : String? {
+        val token = settings.getString(ACCESS_TOKEN, "")
+        return token.ifBlank { null }
+    }
+
     fun getUser() : User? {
         return if (settings.getString(USER, defaultValue = "").isBlank()) {
             null
@@ -45,5 +55,6 @@ class PreferenceController(
 
     fun clearUser() {
         settings.remove(USER)
+        settings.remove(ACCESS_TOKEN)
     }
 }

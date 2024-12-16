@@ -8,11 +8,13 @@ import br.com.fittogether.data.remote.dto.request.signup.ValidateCodeRequest
 import br.com.fittogether.data.remote.dto.request.signup.VerifyEmailRequest
 import br.com.fittogether.data.remote.dto.response.signup.CreateUserResponse
 import br.com.fittogether.data.remote.dto.response.signup.GetGendersResponse
+import br.com.fittogether.data.remote.dto.response.signup.GetGoalsResponse
 import br.com.fittogether.data.remote.dto.response.signup.ValidateCodeResponse
 import br.com.fittogether.data.remote.dto.response.signup.VerifyEmailResponse
 import br.com.fittogether.data.remote.wrapper.ApiWrapper
 import br.com.fittogether.data.remote.wrapper.ResultAPI
 import br.com.fittogether.domain.model.signup.GetGender
+import br.com.fittogether.domain.model.signup.GetGoal
 import br.com.fittogether.domain.model.user.User
 import br.com.fittogether.domain.model.signup.ValidateCode
 import br.com.fittogether.domain.model.signup.VerifyEmail
@@ -54,6 +56,13 @@ class SignupRepositoryImpl(
         return wrapper(
             request = signupAPI.setGender(userId = userId, request = request),
             mapper = CreateUserResponse::toDomain
+        )
+    }
+
+    override suspend fun getGoals(): ResultAPI<GetGoal?> {
+        return wrapper(
+            request = signupAPI.getGoals(),
+            mapper = GetGoalsResponse::toDomain
         )
     }
 }

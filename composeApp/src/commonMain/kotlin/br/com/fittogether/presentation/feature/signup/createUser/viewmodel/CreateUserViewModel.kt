@@ -116,7 +116,9 @@ class CreateUserViewModel(
                     )
                 },
                 onSuccess = { response ->
+                    preferences.setToken(token = response.accessToken)
                     preferences.setUser(user = response)
+                    
                     refreshHttpClient()
 
                     _state.update {

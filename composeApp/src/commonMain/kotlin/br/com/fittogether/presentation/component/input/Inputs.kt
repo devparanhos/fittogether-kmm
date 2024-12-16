@@ -1,6 +1,5 @@
 package br.com.fittogether.presentation.component.input
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -38,19 +35,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-import br.com.fittogether.core.util.keepOnlyNumbers
-import br.com.fittogether.core.util.phoneFilter
 import br.com.fittogether.presentation.ui.color.Error
 import br.com.fittogether.presentation.ui.color.Grey300
 import br.com.fittogether.presentation.ui.color.Grey400
-import br.com.fittogether.presentation.ui.color.Grey500
 import br.com.fittogether.presentation.ui.color.Grey600
 import br.com.fittogether.presentation.ui.color.Grey700
 import br.com.fittogether.presentation.ui.color.Primary
 import coil3.compose.AsyncImage
 
 import fittogether_app.composeapp.generated.resources.Res
-import fittogether_app.composeapp.generated.resources.brasil
 import fittogether_app.composeapp.generated.resources.ic_no_icon
 
 import org.jetbrains.compose.resources.painterResource
@@ -173,13 +166,15 @@ fun InputSelection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, if (selected) Primary else Grey600, RoundedCornerShape(10.dp))
-            .clip(RoundedCornerShape(10.dp))
-            .background(if (selected) Primary else Color.White)
-            .padding(horizontal = 16.dp, vertical = 10.dp)
             .clickable {
                 onSelection()
             }
+            .border(1.dp, if (selected) Primary else Grey600, RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp))
+            .background(if (selected) Primary else Color.White)
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
     ){
         AsyncImage(
             model = icon,

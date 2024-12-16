@@ -4,7 +4,8 @@ import br.com.fittogether.data.remote.client.HttpClientManager
 import br.com.fittogether.presentation.feature.login.viewmodel.LoginViewModel
 import br.com.fittogether.presentation.feature.signup.confirmCode.viewmodel.ConfirmCodeViewModel
 import br.com.fittogether.presentation.feature.signup.createUser.viewmodel.CreateUserViewModel
-import br.com.fittogether.presentation.feature.signup.gender.viewmodel.GenderViewModel
+import br.com.fittogether.presentation.feature.registration.gender.viewmodel.GenderViewModel
+import br.com.fittogether.presentation.feature.registration.goal.viewmodel.GoalViewModel
 import br.com.fittogether.presentation.feature.signup.verifyEmail.viewmodel.VerifyEmailViewModel
 import br.com.fittogether.presentation.feature.start.viewmodel.StartViewModel
 
@@ -54,6 +55,13 @@ val viewModelModule = module {
             preferenceController = get(),
             getGenderUseCase = get(),
             setGenderUseCase = get()
+        )
+    }
+
+    viewModel {
+        GoalViewModel(
+            preferences = get(),
+            getGoalsUseCase = get()
         )
     }
 }

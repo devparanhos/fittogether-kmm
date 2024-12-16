@@ -36,7 +36,7 @@ class HttpClientManager(
 
         httpClient = HttpClient(engine = engine) {
             install(Logging) {
-                level = LogLevel.BODY
+                level = LogLevel.ALL
                 logger = object : Logger {
                     override fun log(message: String) {
                         Napier.d(message = message, tag = "HTTP call")
@@ -61,8 +61,8 @@ class HttpClientManager(
                 bearer {
                     loadTokens {
                         BearerTokens(
-                            accessToken = preferenceController.getUser()?.accessToken ?: "",
-                            refreshToken = preferenceController.getUser()?.accessToken ?: ""
+                            accessToken = preferenceController.getToken() ?: "",
+                            refreshToken = preferenceController.getToken() ?: ""
                         )
                     }
                 }

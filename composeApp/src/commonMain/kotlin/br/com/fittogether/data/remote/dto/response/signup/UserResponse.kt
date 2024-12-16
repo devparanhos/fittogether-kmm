@@ -30,6 +30,8 @@ data class UserResponse(
     val exercises: List<ExercisesResponse>? = null,
 
     @SerialName("preference")
-    val preference: PreferenceResponse? = null
+    val preference: PreferenceResponse? = null,
 
+    @SerialName("registration_status")
+    val status: String? = null
 )

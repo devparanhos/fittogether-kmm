@@ -7,6 +7,7 @@ import br.com.fittogether.data.remote.dto.response.signup.CreateUserResponse
 import br.com.fittogether.data.remote.dto.response.signup.ExercisesResponse
 import br.com.fittogether.data.remote.dto.response.signup.GenderResponse
 import br.com.fittogether.data.remote.dto.response.signup.GetGendersResponse
+import br.com.fittogether.data.remote.dto.response.signup.GetGoalsResponse
 import br.com.fittogether.data.remote.dto.response.signup.GoalResponse
 import br.com.fittogether.data.remote.dto.response.signup.PreferenceResponse
 import br.com.fittogether.data.remote.dto.response.signup.ValidateCodeResponse
@@ -16,6 +17,7 @@ import br.com.fittogether.domain.model.gender.Gender
 import br.com.fittogether.domain.model.goal.Goal
 import br.com.fittogether.domain.model.preference.Preference
 import br.com.fittogether.domain.model.signup.GetGender
+import br.com.fittogether.domain.model.signup.GetGoal
 import br.com.fittogether.domain.model.user.User
 import br.com.fittogether.domain.model.signup.ValidateCode
 import br.com.fittogether.domain.model.signup.VerifyEmail
@@ -46,7 +48,8 @@ fun CreateUserResponse.toDomain() : User {
         experience = this.user?.experience,
         goals = this.user?.goals?.map { it.toDomain() },
         exercises = this.user?.exercises?.map { it.toDomain() },
-        preference = this.user?.preference?.toDomain()
+        preference = this.user?.preference?.toDomain(),
+        status = UserStatus.findByValue(this.user?.status)
 
     )
 }
@@ -89,5 +92,12 @@ fun GetGendersResponse.toDomain() : GetGender {
     return GetGender(
         title = this.title,
         genders = this.genders?.map { it.toDomain() }
+    )
+}
+
+fun GetGoalsResponse.toDomain() : GetGoal {
+    return GetGoal(
+        title = this.title,
+        goals = this.goals?.map { it.toDomain() }
     )
 }

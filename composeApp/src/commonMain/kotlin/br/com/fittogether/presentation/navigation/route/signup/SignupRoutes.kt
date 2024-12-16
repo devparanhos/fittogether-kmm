@@ -14,10 +14,4 @@ sealed class SignupRoutes {
 
     @Serializable
     data object CreateUser : SignupRoutes()
-
-    @Serializable
-    data object Gender : SignupRoutes()
-
-    @Serializable
-    data object Goal : SignupRoutes()
 }
