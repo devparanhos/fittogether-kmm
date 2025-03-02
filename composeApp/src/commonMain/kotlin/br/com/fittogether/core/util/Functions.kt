@@ -87,7 +87,6 @@ inline fun <reified D> String.toObj() : D? {
 
 class DateVisualTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
-        // Make the string DD-MM-YYYY
         val trimmed = if (text.text.length >= 8) text.text.substring(0..7) else text.text
         var output = ""
         for (i in trimmed.indices) {
@@ -96,11 +95,8 @@ class DateVisualTransformation : VisualTransformation {
         }
         val dateTranslator = object : OffsetMapping {
             override fun originalToTransformed(offset: Int): Int {
-                // [offset [0 - 1] remain the same]
                 if (offset <= 1) return offset
-                // [2 - 3] transformed to [3 - 4] respectively
                 if (offset <= 3) return offset + 1
-                // [4 - 7] transformed to [6 - 9] respectively
                 if (offset <= 7) return offset + 2
                 return 10
             }
@@ -122,11 +118,9 @@ class DateVisualTransformation : VisualTransformation {
 }
 
 fun formatDateWithSlashes(date: String): String {
-    // Verifica se o comprimento da data está correto
     if (date.length != 8) {
         throw IllegalArgumentException("A data deve ter exatamente 8 caracteres.")
     }
 
-    // Formata a data com barras no lugar certo
     return "${date.substring(0, 2)}/${date.substring(2, 4)}/${date.substring(4, 8)}"
 }

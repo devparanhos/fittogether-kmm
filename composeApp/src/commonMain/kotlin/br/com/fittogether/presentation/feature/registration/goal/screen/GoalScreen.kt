@@ -22,7 +22,6 @@ import br.com.fittogether.presentation.component.content.LoadingContent
 import br.com.fittogether.presentation.component.input.InputSelection
 
 import br.com.fittogether.presentation.component.topbar.WizardTopbar
-import br.com.fittogether.presentation.feature.registration.gender.intent.GenderIntent
 import br.com.fittogether.presentation.feature.registration.goal.intent.GoalIntent
 import br.com.fittogether.presentation.feature.registration.goal.state.GoalState
 import br.com.fittogether.presentation.feature.registration.goal.viewmodel.GoalViewModel
@@ -119,7 +118,7 @@ fun GoalContent(
                                 backgroundColor = Secondary,
                                 borderColor = Secondary,
                                 onClick = {
-
+                                    action(GoalIntent.SetGoals)
                                 }
                             )
                         }

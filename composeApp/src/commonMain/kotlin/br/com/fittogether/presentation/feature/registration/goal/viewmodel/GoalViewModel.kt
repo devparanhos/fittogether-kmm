@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.fittogether.core.controller.PreferenceController
 import br.com.fittogether.domain.model.goal.Goal
 import br.com.fittogether.domain.usecase.signup.GetGoalUseCase
+import br.com.fittogether.domain.usecase.signup.SetGoalsUseCase
 import br.com.fittogether.presentation.feature.registration.goal.intent.GoalIntent
 import br.com.fittogether.presentation.feature.registration.goal.state.GoalState
 import br.com.fittogether.presentation.viewmodel.BaseViewModel
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class GoalViewModel(
     private val preferences: PreferenceController,
-    private val getGoalsUseCase: GetGoalUseCase
+    private val getGoalsUseCase: GetGoalUseCase,
+    private val setGoalsUseCase : SetGoalsUseCase
 ) : BaseViewModel() {
     private val _state =  MutableStateFlow(GoalState())
     val state = _state.asStateFlow()
@@ -36,6 +38,10 @@ class GoalViewModel(
             is GoalIntent.SelectGoal -> {
                 setSelectedGoal(goal = intent.goal)
             }
+
+            is GoalIntent.SetGoals -> {
+                setGoals()
+            }
         }
     }
 
@@ -54,8 +60,12 @@ class GoalViewModel(
                         )
                     }
                 },
-                onError = {
-
+                onError = { error ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false
+                        )
+                    }
                 }
             )
         }
@@ -66,10 +76,36 @@ class GoalViewModel(
             currentState.copy(
                 goalsSelected = currentState.goalsSelected.toMutableList().apply {
                     if (contains(goal)) {
-                        remove(goal) // Remove o goal se já estiver na lista
+                        remove(goal)
                     } else {
-                        add(goal) // Adiciona o goal se não estiver na lista
+                        add(goal)
                     }
+                }
+            )
+        }
+    }
+
+    private fun setGoals() {
+        viewModelScope.launch {
+            callUseCase(
+                prepareUi = {
+                    _state.update {
+                        it.copy(
+                            isRequesting = true
+                        )
+                    }
+                },
+                useCase = {
+                    setGoalsUseCase(
+                        userId = preferences.getUser()?.id,
+                        goals = state.value.goals
+                    )
+                },
+                onSuccess = { response ->
+
+                },
+                onError = { error ->
+
                 }
             )
         }

@@ -7,5 +7,6 @@ data class GoalState(
     val isLoading: Boolean = true,
     val goals : List<Goal>? = null,
     val title: String? = "",
-    val goalsSelected : MutableList<Goal> = mutableListOf()
+    val goalsSelected : MutableList<Goal> = mutableListOf(),
+    val isRequesting : Boolean = false
 )

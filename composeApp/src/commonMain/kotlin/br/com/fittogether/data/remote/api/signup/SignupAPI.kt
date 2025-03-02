@@ -1,6 +1,7 @@
 package br.com.fittogether.data.remote.api.signup
 
 import br.com.fittogether.data.remote.client.HttpClientManager
+import br.com.fittogether.data.remote.dto.request.registration.goals.SetGoalsRequest
 import br.com.fittogether.data.remote.dto.request.signup.CreateUserRequest
 import br.com.fittogether.data.remote.dto.request.signup.SetGenderRequest
 import br.com.fittogether.data.remote.dto.request.signup.ValidateCodeRequest
@@ -37,12 +38,18 @@ class SignupAPI(
     }
 
     suspend fun setGender(userId: Int?, request: SetGenderRequest) : HttpResponse {
-        return httpClientManager.getHttpClient().post("registration/$userId/gender") {
+        return httpClientManager.getHttpClient().post("registration/gender") {
             setBody(request)
         }
     }
 
     suspend fun getGoals() : HttpResponse {
         return httpClientManager.getHttpClient().get("registration/screen/goals")
+    }
+
+    suspend fun setGoals(request: SetGoalsRequest?) : HttpResponse {
+        return httpClientManager.getHttpClient().post("registration/goals") {
+            setBody(request)
+        }
     }
 }

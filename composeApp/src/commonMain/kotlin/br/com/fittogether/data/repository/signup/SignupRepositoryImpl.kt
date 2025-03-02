@@ -2,6 +2,7 @@ package br.com.fittogether.data.repository.signup
 
 import br.com.fittogether.data.remote.api.signup.SignupAPI
 import br.com.fittogether.data.remote.dto.mapper.signup.toDomain
+import br.com.fittogether.data.remote.dto.request.registration.goals.SetGoalsRequest
 import br.com.fittogether.data.remote.dto.request.signup.CreateUserRequest
 import br.com.fittogether.data.remote.dto.request.signup.SetGenderRequest
 import br.com.fittogether.data.remote.dto.request.signup.ValidateCodeRequest
@@ -63,6 +64,13 @@ class SignupRepositoryImpl(
         return wrapper(
             request = signupAPI.getGoals(),
             mapper = GetGoalsResponse::toDomain
+        )
+    }
+
+    override suspend fun setGoals(request: SetGoalsRequest): ResultAPI<User?> {
+        return wrapper(
+            request = signupAPI.setGoals(request = request),
+            mapper = CreateUserResponse::toDomain
         )
     }
 }

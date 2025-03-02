@@ -1,5 +1,6 @@
 package br.com.fittogether.domain.repository.signup
 
+import br.com.fittogether.data.remote.dto.request.registration.goals.SetGoalsRequest
 import br.com.fittogether.data.remote.dto.request.signup.CreateUserRequest
 import br.com.fittogether.data.remote.dto.request.signup.SetGenderRequest
 import br.com.fittogether.data.remote.dto.request.signup.ValidateCodeRequest
@@ -19,4 +20,5 @@ interface SignupRepository {
     suspend fun getGenders() : ResultAPI<GetGender?>
     suspend fun setGender(userId: Int?, request: SetGenderRequest) : ResultAPI<User?>
     suspend fun getGoals() : ResultAPI<GetGoal?>
+    suspend fun setGoals(request: SetGoalsRequest) : ResultAPI<User?>
 }

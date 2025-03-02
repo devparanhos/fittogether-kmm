@@ -90,7 +90,7 @@ class VerifyEmailViewModel(
                             }
                         }
 
-                        UserStatus.CREATED -> {
+                        UserStatus.CREATED, UserStatus.CONCLUDED -> {
                             preferences.setEmailRegistration(email = state.value.email)
 
                             _state.update {

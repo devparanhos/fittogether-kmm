@@ -208,7 +208,6 @@ fun CreateUserContent(
                         placeholder = stringResource(Res.string.create_user_placeholder_cellphone),
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Next,
-                        visualTransformation = { text -> phoneFilter(text) },
                         onValueChange = {
                             action(
                                 CreateUserIntent.UpdateCellphone(cellphone = it)
